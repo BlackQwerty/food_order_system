@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClickEat — Track Order</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ========== NAVIGATION BAR ========== -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="brand">ClickEat</a>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Menu">☰</button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="order.html">Order</a></li>
+        <li><a href="tracking.html" class="active">Track</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="login.html">Login</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ========== PAGE HEADER ========== -->
+  <section class="page-header">
+    <h1>Track Your Order</h1>
+    <p>Enter your order number to check its status</p>
+  </section>
+
+  <!-- ========== TRACKING INPUT ========== -->
+  <section class="section-sm">
+    <div class="container">
+
+      <!-- Search bar -->
+      <div class="tracking-search">
+        <input type="text" id="orderNumberInput" placeholder="Enter Order Number (e.g. FH-12345678)">
+        <button class="btn-primary" id="trackBtn">Track Order</button>
+      </div>
+      <p class="error-msg" id="trackError" style="text-align:center;"></p>
+
+      <!-- Progress bar -->
+      <div class="tracking-result" id="trackingResult">
+        <div class="card pad-md">
+
+          <!-- Order info -->
+          <div class="flex-between mb-sm">
+            <div>
+              <strong>Order #:</strong> <span id="trackOrderNum">-</span>
+            </div>
+            <span class="badge badge-pending" id="trackStatusBadge">Pending</span>
+          </div>
+
+          <!-- Progress bar with 5 steps -->
+          <div class="progress-bar" id="progressBar">
+            <!-- Step 1: Order Placed -->
+            <div class="progress-step" id="step1">
+              <div class="circle">1</div>
+              <span>Order Placed</span>
+            </div>
+            <!-- Step 2: Kitchen Prep -->
+            <div class="progress-step" id="step2">
+              <div class="circle">2</div>
+              <span>Kitchen Prep</span>
+            </div>
+            <!-- Step 3: Ready -->
+            <div class="progress-step" id="step3">
+              <div class="circle">3</div>
+              <span>Ready</span>
+            </div>
+            <!-- Step 4: Out for Delivery -->
+            <div class="progress-step" id="step4">
+              <div class="circle">4</div>
+              <span>Out for Delivery</span>
+            </div>
+            <!-- Step 5: Delivered -->
+            <div class="progress-step" id="step5">
+              <div class="circle">5</div>
+              <span>Delivered</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Demo info -->
+      <div style="text-align:center; margin-top:16px; font-size:14px; color:#666;">
+        <p>💡 <strong>Demo:</strong> Enter any order number and we'll show a sample status. Try it!</p>
+      </div>
+
+      <!-- Back button -->
+      <div class="flex-center mt-md">
+        <a href="dashboard.html" class="btn-secondary">← Back to Dashboard</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer>
+    <div class="container">
+      <div>
+        <h4>About ClickEat</h4>
+        <p>A modern restaurant serving authentic Malaysian cuisine.</p>
+      </div>
+      <div>
+        <h4>Contact Us</h4>
+        <p>📍 Jalan Teknologi, Melaka<br>📞 012-345 6789<br>✉️ hello@flavourshaven.my</p>
+      </div>
+      <div>
+        <h4>Operating Hours</h4>
+        <p>Mon–Sat: 10AM–10PM<br>Sun: 12PM–9PM</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== JAVASCRIPT ========== -->
+  <script>
+    // Hamburger menu
+    document.getElementById('hamburgerBtn').addEventListener('click', function() {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+
+    /* -------------------------------------------------------
+     * ORDER TRACKING LOGIC
+     *   For demo purposes, any order number works.
+     *   Status and progress are simulated.
+     * ------------------------------------------------------- */
+
+    document.getElementById('trackBtn').addEventListener('click', function() {
+      const orderNumber = document.getElementById('orderNumberInput').value.trim();
+      const errorEl = document.getElementById('trackError');
+      const resultEl = document.getElementById('trackingResult');
+
+      // Validate input
+      if (orderNumber === '') {
+        errorEl.textContent = 'Please enter an order number.';
+        resultEl.classList.remove('visible');
+        return;
+      }
+
+      errorEl.textContent = '';
+      resultEl.classList.add('visible');
+
+      // Display order number
+      document.getElementById('trackOrderNum').textContent = orderNumber;
+
+      // For demo: simulate a random status
+      // In a real app, this would fetch from the database
+      const statuses = ['Pending', 'In Progress', 'Ready', 'Completed', 'Delivered'];
+      const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+
+      // Update status badge
+      const badge = document.getElementById('trackStatusBadge');
+      badge.textContent = randomStatus;
+
+      // Map status to badge CSS class
+      const badgeMap = {
+        'Pending': 'badge-pending',
+        'In Progress': 'badge-inprogress',
+        'Ready': 'badge-ready',
+        'Completed': 'badge-completed',
+        'Delivered': 'badge-delivered'
+      };
+      badge.className = 'badge ' + (badgeMap[randomStatus] || 'badge-pending');
+
+      // Map status to step number
+      const stepMap = {
+        'Pending': 1,
+        'In Progress': 2,
+        'Ready': 3,
+        'Completed': 4,
+        'Delivered': 5
+      };
+      const currentStep = stepMap[randomStatus] || 1;
+
+      // Update progress steps
+      for (let i = 1; i <= 5; i++) {
+        const stepEl = document.getElementById('step' + i);
+        // Remove existing classes
+        stepEl.classList.remove('completed', 'active');
+
+        if (i < currentStep) {
+          stepEl.classList.add('completed');
+        } else if (i === currentStep) {
+          stepEl.classList.add('active');
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>

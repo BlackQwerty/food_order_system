@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClickEat — Menu</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ========== NAVIGATION BAR (same on every page) ========== -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="brand">🍔 ClickEat</a>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Menu">☰</button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="menu.html" class="active">Menu</a></li>
+        <li><a href="order.html">Order</a></li>
+        <li><a href="tracking.html">Track</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="login.html">Login</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ========== PAGE HEADER ========== -->
+  <section class="page-header">
+    <h1>Our Menu</h1>
+    <p>Browse our delicious Malaysian dishes — tap to add to your cart</p>
+  </section>
+
+  <!-- ========== CATEGORY FILTER TABS ========== -->
+  <section class="section-sm">
+    <div class="container">
+      <div class="category-tabs" id="categoryTabs">
+        <button class="category-tab active-tab" data-category="all">All</button>
+        <button class="category-tab" data-category="main-course">Main Course</button>
+        <button class="category-tab" data-category="beverages">Beverages</button>
+        <button class="category-tab" data-category="desserts">Desserts</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== MENU ITEMS GRID ========== -->
+  <section class="section-sm">
+    <div class="container">
+      <div class="grid-4" id="menuGrid">
+
+        <!-- ===== MAIN COURSE ===== -->
+        <div class="card menu-item" data-category="main-course">
+          <img src="https://via.placeholder.com/300x180?text=Nasi+Lemak" alt="Nasi Lemak" loading="lazy">
+          <h4>Nasi Lemak</h4>
+          <p class="desc">Fragrant coconut rice with spicy sambal, crispy anchovies, boiled egg, and fresh cucumber slices</p>
+          <p class="price">RM 8.90</p>
+          <button class="btn-primary add-to-cart" data-name="Nasi Lemak" data-price="8.90">+ Add to Cart</button>
+        </div>
+
+        <div class="card menu-item" data-category="main-course">
+          <img src="https://via.placeholder.com/300x180?text=Nasi+Goreng+Kampung" alt="Nasi Goreng Kampung" loading="lazy">
+          <h4>Nasi Goreng Kampung</h4>
+          <p class="desc">Traditional village fried rice with anchovies, water spinach (kangkung), and a fried egg</p>
+          <p class="price">RM 7.50</p>
+          <button class="btn-primary add-to-cart" data-name="Nasi Goreng Kampung" data-price="7.50">+ Add to Cart</button>
+        </div>
+
+        <div class="card menu-item" data-category="main-course">
+          <img src="https://via.placeholder.com/300x180?text=Mee+Goreng+Mamak" alt="Mee Goreng Mamak" loading="lazy">
+          <h4>Mee Goreng Mamak</h4>
+          <p class="desc">Spicy stir-fried yellow noodles with tofu, potato cubes, egg, and special mamak sauce</p>
+          <p class="price">RM 6.90</p>
+          <button class="btn-primary add-to-cart" data-name="Mee Goreng Mamak" data-price="6.90">+ Add to Cart</button>
+        </div>
+
+        <div class="card menu-item" data-category="main-course">
+          <img src="https://via.placeholder.com/300x180?text=Chicken+Rice" alt="Chicken Rice" loading="lazy">
+          <h4>Hainanese Chicken Rice</h4>
+          <p class="desc">Poached chicken with fragrant rice, chilli sauce, ginger paste, and clear soup</p>
+          <p class="price">RM 9.50</p>
+          <button class="btn-primary add-to-cart" data-name="Chicken Rice" data-price="9.50">+ Add to Cart</button>
+        </div>
+
+        <div class="card menu-item" data-category="main-course">
+          <img src="https://via.placeholder.com/300x180?text=Char+Kuey+Teow" alt="Char Kuey Teow" loading="lazy">
+          <h4>Char Kuey Teow</h4>
+          <p class="desc">Flat rice noodles wok-fried with prawns, cockles, bean sprouts, egg, and soy sauce</p>
+          <p class="price">RM 8.00</p>
+          <button class="btn-primary add-to-cart" data-name="Char Kuey Teow" data-price="8.00">+ Add to Cart</button>
+        </div>
+
+        <div class="card menu-item" data-category="main-course">
+          <img src="https://via.placeholder.com/300x180?text=Roti+Canai" alt="Roti Canai" loading="lazy">
+          <h4>Roti Canai with Dhal</h4>
+          <p class="desc">Crispy flatbread served with flavourful lentil curry (dhal) and a side of sambal</p>
+          <p class="price">RM 4.50</p>
+          <button class="btn-primary add-to-cart" data-name="Roti Canai" data-price="4.50">+ Add to Cart</button>
+        </div>
+
+        <div class="card menu-item" data-category="main-course">
+          <img src="https://via.placeholder.com/300x180?text=Laksa" alt="Laksa" loading="lazy">
+          <h4>Curry Laksa</h4>
+          <p class="desc">Rich and spicy coconut curry noodle soup with tofu puffs, prawns, and shredded chicken</p>
+          <p class="price">RM 9.00</p>
+          <button class="btn-primary add-to-cart" data-name="Curry Laksa" data-price="9.00">+ Add to Cart</button>
+        </div>
+
+        <div class="card menu-item" data-category="main-course">
+          <img src="https://via.placeholder.com/300x180?text=Satay" alt="Satay" loading="lazy">
+          <h4>Chicken Satay (10 sticks)</h4>
+          <p class="desc">Grilled marinated chicken skewers served with spicy peanut sauce, ketupat, and onions</p>
+          <p class="price">RM 12.00</p>
+          <button class="btn-primary add-to-cart" data-name="Chicken Satay" data-price="12.00">+ Add to Cart</button>
+        </div>
+
+        <!-- ===== BEVERAGES ===== -->
+        <div class="card menu-item" data-category="beverages">
+          <img src="https://via.placeholder.com/300x180?text=Teh+Tarik" alt="Teh Tarik" loading="lazy">
+          <h4>Teh Tarik</h4>
+          <p class="desc">Malaysia's iconic pulled milk tea — frothy, creamy, and comforting (hot or iced)</p>
+          <p class="price">RM 3.50</p>
+          <button class="btn-primary add-to-cart" data-name="Teh Tarik" data-price="3.50">+ Add to Cart</button>
+        </div>
+
+        <div class="card menu-item" data-category="beverages">
+          <img src="https://via.placeholder.com/300x180?text=Milo+Ais" alt="Milo Ais" loading="lazy">
+          <h4>Milo Ais</h4>
+          <p class="desc">Ice-cold chocolate malt drink topped with extra Milo powder — a Malaysian favourite</p>
+          <p class="price">RM 4.00</p>
+          <button class="btn-primary add-to-cart" data-name="Milo Ais" data-price="4.00">+ Add to Cart</button>
+        </div>
+
+        <div class="card menu-item" data-category="beverages">
+          <img src="https://via.placeholder.com/300x180?text=Sirap+Bandung" alt="Sirap Bandung" loading="lazy">
+          <h4>Sirap Bandung</h4>
+          <p class="desc">Sweet rose syrup mixed with milk for a refreshing pink drink</p>
+          <p class="price">RM 3.00</p>
+          <button class="btn-primary add-to-cart" data-name="Sirap Bandung" data-price="3.00">+ Add to Cart</button>
+        </div>
+
+        <div class="card menu-item" data-category="beverages">
+          <img src="https://via.placeholder.com/300x180?text=Lemonade" alt="Lemonade" loading="lazy">
+          <h4>Fresh Lemonade</h4>
+          <p class="desc">Chilled lemonade with a hint of mint — perfect for a hot day</p>
+          <p class="price">RM 5.00</p>
+          <button class="btn-primary add-to-cart" data-name="Lemonade" data-price="5.00">+ Add to Cart</button>
+        </div>
+
+        <!-- ===== DESSERTS ===== -->
+        <div class="card menu-item" data-category="desserts">
+          <img src="https://via.placeholder.com/300x180?text=Cendol" alt="Cendol" loading="lazy">
+          <h4>Cendol</h4>
+          <p class="desc">Shaved ice dessert with green rice flour jelly, coconut milk, and gula melaka syrup</p>
+          <p class="price">RM 5.50</p>
+          <button class="btn-primary add-to-cart" data-name="Cendol" data-price="5.50">+ Add to Cart</button>
+        </div>
+
+        <div class="card menu-item" data-category="desserts">
+          <img src="https://via.placeholder.com/300x180?text=Pisang+Goreng" alt="Pisang Goreng" loading="lazy">
+          <h4>Pisang Goreng (6 pcs)</h4>
+          <p class="desc">Crispy Malaysian-style banana fritters served with a drizzle of honey</p>
+          <p class="price">RM 4.00</p>
+          <button class="btn-primary add-to-cart" data-name="Pisang Goreng" data-price="4.00">+ Add to Cart</button>
+        </div>
+
+        <div class="card menu-item" data-category="desserts">
+          <img src="https://via.placeholder.com/300x180?text=Ais+Kacang" alt="Ais Kacang" loading="lazy">
+          <h4>Ais Kacang (ABC)</h4>
+          <p class="desc">Mountain of shaved ice with sweet corn, red beans, jelly, peanuts, and syrup</p>
+          <p class="price">RM 6.00</p>
+          <button class="btn-primary add-to-cart" data-name="Ais Kacang" data-price="6.00">+ Add to Cart</button>
+        </div>
+
+        <div class="card menu-item" data-category="desserts">
+          <img src="https://via.placeholder.com/300x180?text=Bubur+Cha+Cha" alt="Bubur Cha Cha" loading="lazy">
+          <h4>Bubur Cha Cha</h4>
+          <p class="desc">Sweet coconut-based dessert with taro, sweet potato, sago, and colourful jelly</p>
+          <p class="price">RM 5.00</p>
+          <button class="btn-primary add-to-cart" data-name="Bubur Cha Cha" data-price="5.00">+ Add to Cart</button>
+        </div>
+
+      </div>
+
+      <!-- Bottom action buttons -->
+      <div class="flex-center mt-md" style="gap:16px;">
+        <a href="cart.html" class="btn-primary">🛒 View Cart <span class="cart-count" id="menuCartCount">0</span></a>
+        <a href="order.html" id="checkoutBtn" class="btn-secondary">Continue to Checkout</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========== TOAST NOTIFICATION ==========
+       Shows "Added!" at the bottom-right when an item is added to cart
+  -->
+  <div class="toast" id="toast">✅ Added to cart!</div>
+
+  <!-- ========== QR CODE MODAL ==========
+       For walk-in customers: shows QR code image + table number input
+  -->
+  <div class="modal-overlay" id="qrModal">
+    <div class="modal">
+      <button class="modal-close" id="closeQrModal">✕</button>
+      <h3>Walk-In Order — Scan QR</h3>
+      <div style="text-align:center; margin:16px 0;">
+        <!-- Placeholder QR code image -->
+        <img src="https://via.placeholder.com/200x200?text=QR+Code" alt="QR Code" style="border:1px solid #e5e7eb; border-radius:8px;">
+        <p style="font-size:14px; color:#666; margin-top:8px;">
+          Table 5 — Scan to open menu
+        </p>
+      </div>
+      <div class="form-group">
+        <label for="tableNumber">Or enter table number:</label>
+        <input type="number" id="tableNumber" placeholder="e.g. 5" min="1">
+      </div>
+      <button class="btn-primary" style="width:100%;" id="submitTableBtn">Enter Table & View Menu</button>
+    </div>
+  </div>
+
+  <!-- ========== FOOTER ========== -->
+  <footer>
+    <div class="container">
+      <div>
+        <h4>About ClickEat</h4>
+        <p>A modern restaurant serving authentic Malaysian cuisine. Walk in or order online.</p>
+      </div>
+      <div>
+        <h4>Contact Us</h4>
+        <p>📍 Jalan Teknologi, Melaka<br>📞 012-345 6789<br>✉️ hello@flavourshaven.my</p>
+      </div>
+      <div>
+        <h4>Operating Hours</h4>
+        <p>Mon–Sat: 10AM–10PM<br>Sun: 12PM–9PM</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== JAVASCRIPT ========== -->
+  <script>
+    /* -------------------------------------------------------
+     * 1. MOBILE NAVIGATION TOGGLE
+     * ------------------------------------------------------- */
+    document.getElementById('hamburgerBtn').addEventListener('click', function() {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+
+    /* -------------------------------------------------------
+     * 2. CATEGORY FILTER TABS
+     *    Clicking a tab hides/shows menu items based on category
+     * ------------------------------------------------------- */
+    const tabs = document.querySelectorAll('.category-tab');
+    const items = document.querySelectorAll('.menu-item');
+
+    tabs.forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        // Remove active class from all tabs
+        tabs.forEach(function(t) { t.classList.remove('active-tab'); });
+        // Add active class to clicked tab
+        this.classList.add('active-tab');
+
+        const category = this.getAttribute('data-category');
+
+        // Show/hide items based on selected category
+        items.forEach(function(item) {
+          if (category === 'all' || item.getAttribute('data-category') === category) {
+            item.style.display = '';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    /* -------------------------------------------------------
+     * 3. ADD TO CART + TOAST NOTIFICATION
+     *    Stores cart items in localStorage (survives page reload)
+     * ------------------------------------------------------- */
+    function getCart() {
+      // Read cart from browser's localStorage (converts from JSON string to JS array)
+      const cartData = localStorage.getItem('flavoursCart');
+      return cartData ? JSON.parse(cartData) : [];
+    }
+
+    function saveCart(cart) {
+      // Save cart array back to localStorage as a JSON string
+      localStorage.setItem('flavoursCart', JSON.stringify(cart));
+    }
+
+    function updateCartCount() {
+      // Update all cart count badges on the page
+      const cart = getCart();
+      const total = cart.reduce(function(sum, item) { return sum + item.quantity; }, 0);
+      const counters = document.querySelectorAll('.cart-count');
+      counters.forEach(function(counter) { counter.textContent = total; });
+    }
+
+    function showToast() {
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      // Hide toast after 2 seconds
+      setTimeout(function() {
+        toast.classList.remove('show');
+      }, 2000);
+    }
+
+    // Attach click handlers to ALL "Add to Cart" buttons
+    document.querySelectorAll('.add-to-cart').forEach(function(button) {
+      button.addEventListener('click', function() {
+        const name = this.getAttribute('data-name');
+        const price = parseFloat(this.getAttribute('data-price'));
+        const cart = getCart();
+
+        // Check if item already exists in cart
+        const existing = cart.find(function(item) { return item.name === name; });
+        if (existing) {
+          existing.quantity += 1;  // Increase quantity
+        } else {
+          cart.push({ name: name, price: price, quantity: 1 });  // Add new item
+        }
+
+        saveCart(cart);
+        updateCartCount();
+        showToast();
+      });
+    });
+
+    /* -------------------------------------------------------
+     * 4. QR CODE MODAL (for walk-in demonstration)
+     * ------------------------------------------------------- */
+    // Open modal button — we can trigger this from the homepage too
+    // For demo purposes, we add a small trigger
+    const openModalBtn = document.createElement('a');
+    // Not adding inline — modal is accessible if needed
+
+    document.getElementById('closeQrModal').addEventListener('click', function() {
+      document.getElementById('qrModal').classList.remove('open');
+    });
+
+    document.getElementById('submitTableBtn').addEventListener('click', function() {
+      const tableNum = document.getElementById('tableNumber').value;
+      if (tableNum && parseInt(tableNum) > 0) {
+        // Save table number for walk-in orders
+        localStorage.setItem('tableNumber', tableNum);
+        alert('Table ' + tableNum + ' selected! Continue ordering from the menu.');
+        document.getElementById('qrModal').classList.remove('open');
+      } else {
+        alert('Please enter a valid table number.');
+      }
+    });
+
+    // Close modal when clicking outside (on the dark overlay)
+    document.getElementById('qrModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        this.classList.remove('open');
+      }
+    });
+
+    // Initialize cart count on page load
+    updateCartCount();
+  </script>
+
+</body>
+</html>

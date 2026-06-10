@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClickEat — Home</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ========== NAVIGATION BAR ==========
+       This SAME navbar appears on EVERY page.
+       "Before login" state: Menu | Order | Track | Dashboard | Login
+  -->
+  <nav class="navbar">
+    <div class="container">
+      <!-- Brand name — clicking it goes back to home -->
+      <a href="index.html" class="brand">ClickEat</a>
+
+      <!-- Hamburger button (only visible on mobile) -->
+      <button class="hamburger" id="hamburgerBtn" aria-label="Menu">☰</button>
+
+      <!-- Navigation links -->
+      <ul class="nav-links" id="navLinks">
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="order.html">Order</a></li>
+        <li><a href="tracking.html">Track</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="login.html">Login</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ========== MAIN CONTENT ========== -->
+
+  <main>
+
+    <!-- HERO SECTION — big banner at the top -->
+    <section class="hero">
+      <h1>Delicious meals prepared with love</h1>
+      <p>
+        Welcome to ClickEat — where every dish tells a story.
+        Order online for delivery or scan a QR code at your table to
+        order directly. Fast, fresh, and full of flavour.
+      </p>
+      <div class="btn-group flex-center">
+        <a href="menu.html" class="btn-primary">View Menu</a>
+        <a href="menu.html" class="btn-secondary">Order Online</a>
+      </div>
+    </section>
+
+    <!-- FEATURE CARDS — three cards explaining how it works -->
+    <section class="section">
+      <div class="container">
+        <h2 style="text-align:center; margin-bottom:24px;">How It Works</h2>
+        <div class="grid-3">
+
+          <!-- Feature 1: Walk-In -->
+          <div class="card feature-card">
+            <div class="feature-icon">📱</div>
+            <h4>Walk-In Order (QR)</h4>
+            <p>
+              Scan the QR code on your table to view the menu and
+              place your order instantly. No waiting for a waiter!
+            </p>
+          </div>
+
+          <!-- Feature 2: Online Delivery -->
+          <div class="card feature-card">
+            <div class="feature-icon">🛵</div>
+            <h4>Online Delivery</h4>
+            <p>
+              Browse our menu from home and get your favourite meals
+              delivered right to your doorstep.
+            </p>
+          </div>
+
+          <!-- Feature 3: Track Order -->
+          <div class="card feature-card">
+            <div class="feature-icon">📍</div>
+            <h4>Track Your Order</h4>
+            <p>
+              Know exactly when your food is being prepared, cooked,
+              and on its way. Real-time order tracking.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- POPULAR MENU ITEMS — preview of 4 items -->
+    <section class="section-sm">
+      <div class="container">
+        <h2 style="text-align:center; margin-bottom:24px;">Popular Dishes</h2>
+        <div class="grid-4">
+
+          <!-- Item 1 -->
+          <div class="card menu-item">
+            <img src="https://via.placeholder.com/300x180?text=Nasi+Lemak" alt="Nasi Lemak" loading="lazy">
+            <h4>Nasi Lemak</h4>
+            <p class="desc">Coconut rice with sambal, anchovies, egg, and cucumber</p>
+            <p class="price">RM 8.90</p>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="card menu-item">
+            <img src="https://via.placeholder.com/300x180?text=Nasi+Goreng+Kampung" alt="Nasi Goreng Kampung" loading="lazy">
+            <h4>Nasi Goreng Kampung</h4>
+            <p class="desc">Traditional village-style fried rice with anchovies and kangkung</p>
+            <p class="price">RM 7.50</p>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="card menu-item">
+            <img src="https://via.placeholder.com/300x180?text=Mee+Goreng+Mamak" alt="Mee Goreng Mamak" loading="lazy">
+            <h4>Mee Goreng Mamak</h4>
+            <p class="desc">Spicy stir-fried noodles with tofu, potato, and egg</p>
+            <p class="price">RM 6.90</p>
+          </div>
+
+          <!-- Item 4 -->
+          <div class="card menu-item">
+            <img src="https://via.placeholder.com/300x180?text=Teh+Tarik" alt="Teh Tarik" loading="lazy">
+            <h4>Teh Tarik</h4>
+            <p class="desc">Malaysia's famous pulled milk tea — hot or iced</p>
+            <p class="price">RM 3.50</p>
+          </div>
+
+        </div>
+
+        <!-- Link to full menu -->
+        <div class="flex-center mt-md">
+          <a href="menu.html" class="btn-primary">View Full Menu</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========== FOOTER ========== -->
+  <footer>
+    <div class="container">
+      <!-- About column -->
+      <div>
+        <h4>About ClickEat</h4>
+        <p>
+          A modern restaurant ordering system serving authentic Malaysian
+          cuisine. Walk in or order online — we make dining easy.
+        </p>
+      </div>
+
+      <!-- Contact column -->
+      <div>
+        <h4>Contact Us</h4>
+        <p>
+          📍 Jalan Teknologi, 76100 Durian Tunggal, Melaka<br>
+          📞 012-345 6789<br>
+          ✉️ hello@flavourshaven.my
+        </p>
+      </div>
+
+      <!-- Hours column -->
+      <div>
+        <h4>Operating Hours</h4>
+        <p>
+          Monday – Saturday: 10:00 AM – 10:00 PM<br>
+          Sunday: 12:00 PM – 9:00 PM
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript for mobile hamburger menu -->
+  <script>
+    // Toggle the mobile navigation menu
+    document.getElementById('hamburgerBtn').addEventListener('click', function() {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+  </script>
+
+</body>
+</html>

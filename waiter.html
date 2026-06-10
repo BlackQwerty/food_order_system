@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClickEat — Waiter Order</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ========== NAVIGATION BAR ========== -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="brand">🍔 ClickEat</a>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Menu">☰</button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="order.html">Order</a></li>
+        <li><a href="tracking.html">Track</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="login.html">Login</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ========== PAGE HEADER ========== -->
+  <section class="page-header">
+    <h1>🍽️ Waiter Interface</h1>
+    <p>Place an order on behalf of a customer at a table</p>
+  </section>
+
+  <section class="section-sm">
+    <div class="container">
+      <div class="waiter-section">
+
+        <!-- Step 1: Enter Table Number -->
+        <div class="card pad-md table-input" id="stepEnterTable">
+          <h3>Step 1: Select Table</h3>
+          <p class="mb-sm">Enter the customer's table number</p>
+          <div class="form-group">
+            <label for="waiterTableNum">Table Number</label>
+            <input type="number" id="waiterTableNum" placeholder="e.g. 5" min="1">
+            <span class="error-msg" id="tableError"></span>
+          </div>
+          <button class="btn-primary" id="confirmTableBtn">Confirm Table →</button>
+        </div>
+
+        <!-- Step 2: Menu Selection (hidden initially) -->
+        <div id="stepSelectItems" style="display:none;">
+          <div class="card pad-md mb-sm" style="background-color:#f5f5f7;">
+            <strong>Table:</strong> <span id="selectedTableDisplay">-</span>
+            <button class="btn-link" id="changeTableBtn" style="margin-left:16px;">Change Table</button>
+          </div>
+
+          <h3>Step 2: Select Items</h3>
+          <p class="mb-sm">Choose from the menu below</p>
+
+          <!-- Menu items for waiter -->
+          <div class="grid-2" id="waiterMenuGrid">
+            <!-- Items are rendered by JS -->
+          </div>
+
+          <!-- Selected items summary -->
+          <h3 class="mt-md">Selected Items</h3>
+          <div id="waiterCartEmpty" class="empty-state" style="padding:24px;">
+            <p>No items selected yet. Tap items above to add them.</p>
+          </div>
+          <div id="waiterCartContent" style="display:none;">
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Price</th>
+                    <th>Qty</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="waiterCartBody"></tbody>
+              </table>
+            </div>
+            <!-- Total -->
+            <div class="price-summary">
+              <div class="row total-row">
+                <span>TOTAL</span>
+                <span id="waiterTotal">RM 0.00</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Place Order Button -->
+          <div class="flex-center mt-md">
+            <button class="btn-primary" id="placeWaiterOrderBtn">✅ Place Order for Table <span id="submitTableNum">-</span></button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer>
+    <div class="container">
+      <div>
+        <h4>About ClickEat</h4>
+        <p>A modern restaurant serving authentic Malaysian cuisine.</p>
+      </div>
+      <div>
+        <h4>Contact Us</h4>
+        <p>📍 Jalan Teknologi, Melaka<br>📞 012-345 6789<br>✉️ hello@flavourshaven.my</p>
+      </div>
+      <div>
+        <h4>Operating Hours</h4>
+        <p>Mon–Sat: 10AM–10PM<br>Sun: 12PM–9PM</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== JAVASCRIPT ========== -->
+  <script>
+    // Hamburger menu
+    document.getElementById('hamburgerBtn').addEventListener('click', function() {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+
+    /* -------------------------------------------------------
+     * WAITER ORDER LOGIC
+     * ------------------------------------------------------- */
+
+    // Menu items available (same as menu.html)
+    const menuItems = [
+      { name: 'Nasi Lemak',           price: 8.90, category: 'main-course' },
+      { name: 'Nasi Goreng Kampung',  price: 7.50, category: 'main-course' },
+      { name: 'Mee Goreng Mamak',     price: 6.90, category: 'main-course' },
+      { name: 'Chicken Rice',         price: 9.50, category: 'main-course' },
+      { name: 'Char Kuey Teow',       price: 8.00, category: 'main-course' },
+      { name: 'Roti Canai',           price: 4.50, category: 'main-course' },
+      { name: 'Curry Laksa',          price: 9.00, category: 'main-course' },
+      { name: 'Chicken Satay',        price: 12.00, category: 'main-course' },
+      { name: 'Teh Tarik',            price: 3.50, category: 'beverages' },
+      { name: 'Milo Ais',             price: 4.00, category: 'beverages' },
+      { name: 'Sirap Bandung',        price: 3.00, category: 'beverages' },
+      { name: 'Lemonade',             price: 5.00, category: 'beverages' },
+      { name: 'Cendol',               price: 5.50, category: 'desserts' },
+      { name: 'Pisang Goreng',        price: 4.00, category: 'desserts' },
+      { name: 'Ais Kacang',           price: 6.00, category: 'desserts' },
+      { name: 'Bubur Cha Cha',        price: 5.00, category: 'desserts' }
+    ];
+
+    let waiterCart = [];
+    let selectedTable = null;
+
+    // Step 1: Confirm table number
+    document.getElementById('confirmTableBtn').addEventListener('click', function() {
+      const tableNumInput = document.getElementById('waiterTableNum');
+      const tableNum = parseInt(tableNumInput.value.trim());
+      const errorEl = document.getElementById('tableError');
+
+      if (!tableNum || tableNum <= 0) {
+        errorEl.textContent = 'Please enter a valid table number.';
+        return;
+      }
+
+      errorEl.textContent = '';
+      selectedTable = tableNum;
+      document.getElementById('selectedTableDisplay').textContent = 'Table ' + selectedTable;
+      document.getElementById('submitTableNum').textContent = selectedTable;
+      document.getElementById('stepEnterTable').style.display = 'none';
+      document.getElementById('stepSelectItems').style.display = '';
+
+      // Render menu items
+      renderWaiterMenu();
+    });
+
+    // Change table
+    document.getElementById('changeTableBtn').addEventListener('click', function() {
+      document.getElementById('stepSelectItems').style.display = 'none';
+      document.getElementById('stepEnterTable').style.display = '';
+      selectedTable = null;
+      waiterCart = [];
+    });
+
+    /* Render menu items grid for waiter */
+    function renderWaiterMenu() {
+      const grid = document.getElementById('waiterMenuGrid');
+      grid.innerHTML = '';
+
+      menuItems.forEach(function(item) {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.style.textAlign = 'center';
+        card.innerHTML = `
+          <h4>${item.name}</h4>
+          <p class="price">RM ${item.price.toFixed(2)}</p>
+          <button class="btn-primary add-waiter-item mt-sm"
+                  data-name="${item.name}" data-price="${item.price}">
+            + Add
+          </button>
+        `;
+        grid.appendChild(card);
+      });
+
+      // Attach add-to-cart handlers
+      document.querySelectorAll('.add-waiter-item').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          const name = this.getAttribute('data-name');
+          const price = parseFloat(this.getAttribute('data-price'));
+
+          const existing = waiterCart.find(function(i) { return i.name === name; });
+          if (existing) {
+            existing.quantity += 1;
+          } else {
+            waiterCart.push({ name: name, price: price, quantity: 1 });
+          }
+
+          renderWaiterCart();
+        });
+      });
+    }
+
+    /* Render waiter's selected items */
+    function renderWaiterCart() {
+      const emptyEl = document.getElementById('waiterCartEmpty');
+      const contentEl = document.getElementById('waiterCartContent');
+      const tbody = document.getElementById('waiterCartBody');
+
+      if (waiterCart.length === 0) {
+        emptyEl.style.display = '';
+        contentEl.style.display = 'none';
+        return;
+      }
+
+      emptyEl.style.display = 'none';
+      contentEl.style.display = '';
+      tbody.innerHTML = '';
+
+      let total = 0;
+      waiterCart.forEach(function(item, index) {
+        const lineTotal = item.price * item.quantity;
+        total += lineTotal;
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${item.name}</td>
+          <td>RM ${item.price.toFixed(2)}</td>
+          <td>
+            <div class="qty-control">
+              <button class="w-qty-minus" data-index="${index}">−</button>
+              <span>${item.quantity}</span>
+              <button class="w-qty-plus" data-index="${index}">+</button>
+            </div>
+          </td>
+          <td>RM ${lineTotal.toFixed(2)}</td>
+          <td><button class="btn-link w-remove" data-index="${index}">Remove</button></td>
+        `;
+        tbody.appendChild(row);
+      });
+
+      document.getElementById('waiterTotal').textContent = 'RM ' + total.toFixed(2);
+
+      // Attach events
+      document.querySelectorAll('.w-qty-minus').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          const idx = parseInt(this.getAttribute('data-index'));
+          if (waiterCart[idx].quantity > 1) {
+            waiterCart[idx].quantity -= 1;
+          } else {
+            waiterCart.splice(idx, 1);
+          }
+          renderWaiterCart();
+        });
+      });
+
+      document.querySelectorAll('.w-qty-plus').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          const idx = parseInt(this.getAttribute('data-index'));
+          waiterCart[idx].quantity += 1;
+          renderWaiterCart();
+        });
+      });
+
+      document.querySelectorAll('.w-remove').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          const idx = parseInt(this.getAttribute('data-index'));
+          waiterCart.splice(idx, 1);
+          renderWaiterCart();
+        });
+      });
+    }
+
+    /* Place waiter order */
+    document.getElementById('placeWaiterOrderBtn').addEventListener('click', function() {
+      if (waiterCart.length === 0) {
+        alert('Please select at least one item for the order.');
+        return;
+      }
+
+      if (!selectedTable) {
+        alert('Please enter a table number first.');
+        return;
+      }
+
+      // Generate order number and redirect to confirmation
+      const orderNumber = 'FH-' + Date.now().toString().slice(-8);
+      const total = document.getElementById('waiterTotal').textContent;
+      localStorage.setItem('lastOrderNumber', orderNumber);
+      localStorage.setItem('lastOrderTotal', total);
+      alert('✅ Order placed for Table ' + selectedTable + '!');
+      window.location.href = 'order-confirmation.html';
+    });
+  </script>
+
+</body>
+</html>

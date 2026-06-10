@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClickEat — Register</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ========== NAVIGATION BAR ========== -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="brand">🍔 ClickEat</a>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Menu">☰</button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="order.html">Order</a></li>
+        <li><a href="tracking.html">Track</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="login.html">Login</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ========== PAGE HEADER ========== -->
+  <section class="page-header">
+    <h1>Create an Account</h1>
+    <p>Join ClickEat and start ordering your favourite meals</p>
+  </section>
+
+  <!-- ========== REGISTRATION FORM ========== -->
+  <section class="section-sm">
+    <div class="form-container">
+
+      <form id="registerForm" novalidate>
+
+        <!-- Full Name -->
+        <div class="form-group">
+          <label for="fullName">Full Name</label>
+          <input type="text" id="fullName" placeholder="e.g. Ahmad bin Ali" autocomplete="name">
+          <span class="error-msg" id="fullNameError"></span>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" placeholder="e.g. ahmad@example.com" autocomplete="email">
+          <span class="error-msg" id="emailError"></span>
+        </div>
+
+        <!-- Phone Number -->
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" placeholder="e.g. 0123456789" autocomplete="tel">
+          <span class="error-msg" id="phoneError"></span>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Minimum 6 characters" autocomplete="new-password">
+          <span class="error-msg" id="passwordError"></span>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input type="password" id="confirmPassword" placeholder="Re-type your password" autocomplete="new-password">
+          <span class="error-msg" id="confirmPasswordError"></span>
+        </div>
+
+        <!-- Customer Type -->
+        <fieldset>
+          <legend>Customer Type</legend>
+          <div class="form-check">
+            <input type="radio" id="typeWalkin" name="customerType" value="walkin">
+            <label for="typeWalkin">Walk-in (dine at restaurant)</label>
+          </div>
+          <div class="form-check">
+            <input type="radio" id="typeOnline" name="customerType" value="online" checked>
+            <label for="typeOnline">Online (delivery)</label>
+          </div>
+        </fieldset>
+        <span class="error-msg" id="customerTypeError"></span>
+
+        <!-- Terms & Conditions -->
+        <div class="form-check mt-sm">
+          <input type="checkbox" id="agreeTerms">
+          <label for="agreeTerms">I agree to the <a href="#">Terms &amp; Conditions</a></label>
+        </div>
+        <span class="error-msg" id="termsError"></span>
+
+        <!-- Submit Button -->
+        <div class="mt-md">
+          <button type="submit" class="btn-primary" style="width:100%;">REGISTER</button>
+        </div>
+
+        <!-- Already have account link -->
+        <p style="text-align:center; margin-top:16px;">
+          Already have an account? <a href="login.html">Login here</a>
+        </p>
+
+      </form>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer>
+    <div class="container">
+      <div>
+        <h4>About ClickEat</h4>
+        <p>A modern restaurant serving authentic Malaysian cuisine.</p>
+      </div>
+      <div>
+        <h4>Contact Us</h4>
+        <p>📍 Jalan Teknologi, Melaka<br>📞 012-345 6789<br>✉️ hello@flavourshaven.my</p>
+      </div>
+      <div>
+        <h4>Operating Hours</h4>
+        <p>Mon–Sat: 10AM–10PM<br>Sun: 12PM–9PM</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== JAVASCRIPT FORM VALIDATION ========== -->
+  <script>
+    // Hamburger menu toggle
+    document.getElementById('hamburgerBtn').addEventListener('click', function() {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+
+    /* -------------------------------------------------------
+     * REGISTRATION FORM VALIDATION
+     * Validates ALL fields before allowing submission.
+     * Rules:
+     *   - Name: cannot be empty
+     *   - Email: must be valid format (contains @ and .)
+     *   - Phone: only digits, at least 10 characters (Malaysian format)
+     *   - Password: minimum 6 characters
+     *   - Confirm password: must match password
+     *   - Customer type: must select one
+     *   - Terms: must be checked
+     * ------------------------------------------------------- */
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+      e.preventDefault();  // Stop the form from submitting to server
+
+      let isValid = true;
+
+      // Helper function: show error or clear it
+      function setError(fieldId, errorId, message) {
+        const field = document.getElementById(fieldId);
+        const error = document.getElementById(errorId);
+        if (message) {
+          error.textContent = message;
+          field.classList.add('error');
+          isValid = false;
+        } else {
+          error.textContent = '';
+          field.classList.remove('error');
+        }
+      }
+
+      // --- Full Name ---
+      const fullName = document.getElementById('fullName').value.trim();
+      setError('fullName', 'fullNameError',
+        fullName === '' ? 'Please enter your full name.' : '');
+
+      // --- Email ---
+      const email = document.getElementById('email').value.trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;  // Checks for @ and .
+      if (email === '') {
+        setError('email', 'emailError', 'Please enter your email address.');
+      } else if (!emailRegex.test(email)) {
+        setError('email', 'emailError', 'Please enter a valid email (e.g. ahmad@example.com).');
+      } else {
+        setError('email', 'emailError', '');
+      }
+
+      // --- Phone Number ---
+      const phone = document.getElementById('phone').value.trim();
+      const phoneDigits = phone.replace(/\D/g, '');  // Remove all non-digits
+      if (phone === '') {
+        setError('phone', 'phoneError', 'Please enter your phone number.');
+      } else if (phoneDigits.length < 10) {
+        setError('phone', 'phoneError', 'Phone number must have at least 10 digits (Malaysian format: 01X-XXXXXXX).');
+      } else {
+        setError('phone', 'phoneError', '');
+      }
+
+      // --- Password ---
+      const password = document.getElementById('password').value;
+      if (password === '') {
+        setError('password', 'passwordError', 'Please enter a password.');
+      } else if (password.length < 6) {
+        setError('password', 'passwordError', 'Password must be at least 6 characters long.');
+      } else {
+        setError('password', 'passwordError', '');
+      }
+
+      // --- Confirm Password ---
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      if (confirmPassword === '') {
+        setError('confirmPassword', 'confirmPasswordError', 'Please confirm your password.');
+      } else if (confirmPassword !== password) {
+        setError('confirmPassword', 'confirmPasswordError', 'Passwords do not match.');
+      } else {
+        setError('confirmPassword', 'confirmPasswordError', '');
+      }
+
+      // --- Customer Type ---
+      const customerType = document.querySelector('input[name="customerType"]:checked');
+      const termsError = document.getElementById('customerTypeError');
+      if (!customerType) {
+        termsError.textContent = 'Please select a customer type.';
+        isValid = false;
+      } else {
+        termsError.textContent = '';
+      }
+
+      // --- Terms Checkbox ---
+      const agreeTerms = document.getElementById('agreeTerms');
+      const termsErr = document.getElementById('termsError');
+      if (!agreeTerms.checked) {
+        termsErr.textContent = 'You must agree to the Terms & Conditions.';
+        isValid = false;
+      } else {
+        termsErr.textContent = '';
+      }
+
+      // If everything is valid, simulate successful registration
+      if (isValid) {
+        // Save user info for demo (in a real app this would go to a server)
+        const userData = {
+          name: fullName,
+          email: email,
+          phone: phone,
+          type: customerType.value
+        };
+        localStorage.setItem('flavoursUser', JSON.stringify(userData));
+        alert('✅ Registration successful! Redirecting to login page...');
+        window.location.href = 'login.html';  // Go to login page
+      }
+    });
+  </script>
+
+</body>
+</html>
