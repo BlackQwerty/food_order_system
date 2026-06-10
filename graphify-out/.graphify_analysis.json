@@ -119,7 +119,7 @@
       "target": "Dashboard Page",
       "source_files": [
         "CONTEXT.md",
-        "dashboard.html"
+        "history.html"
       ],
       "confidence": "INFERRED",
       "relation": "implements",
@@ -163,7 +163,7 @@
       "target": "Staff Dashboard Page",
       "source_files": [
         "CONTEXT.md",
-        "staff-dashboard.html"
+        "staff-history.html"
       ],
       "confidence": "INFERRED",
       "relation": "implements",

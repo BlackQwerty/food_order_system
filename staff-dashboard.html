@@ -4,28 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ClickEat — Staff Dashboard</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 
-  <!-- ========== NAVIGATION BAR ========== -->
-  <nav class="navbar">
-    <div class="container">
-      <a href="index.html" class="brand">🍔 ClickEat</a>
-      <button class="hamburger" id="hamburgerBtn" aria-label="Menu">☰</button>
-      <ul class="nav-links" id="navLinks">
-        <li><a href="menu.html">Menu</a></li>
-        <li><a href="order.html">Order</a></li>
-        <li><a href="tracking.html">Track</a></li>
-        <li><a href="staff-dashboard.html" class="active">Staff Panel</a></li>
-        <li><a href="login.html">Login</a></li>
-      </ul>
-    </div>
-  </nav>
+  <!--navigation bar-->
+   <div id="navbar-placeholder"></div>
 
   <!-- ========== PAGE HEADER ========== -->
   <section class="page-header">
-    <h1>🔧 Staff Dashboard</h1>
+    <h1><i class="fa-solid fa-screwdriver-wrench"></i> Staff Dashboard</h1>
     <p>Manage all walk-in and online orders</p>
   </section>
 
@@ -129,7 +118,7 @@
       </div>
       <div>
         <h4>Contact Us</h4>
-        <p>📍 Jalan Teknologi, Melaka<br>📞 012-345 6789<br>✉️ hello@flavourshaven.my</p>
+        <p><i class="fa-solid fa-location-dot"></i> Jalan Teknologi, Melaka<br><i class="fa-solid fa-phone"></i> 012-345 6789<br><i class="fa-solid fa-envelope"></i> hello@clickeat.my</p>
       </div>
       <div>
         <h4>Operating Hours</h4>
@@ -139,81 +128,8 @@
   </footer>
 
   <!-- ========== JAVASCRIPT ========== -->
-  <script>
-    // Hamburger menu
-    document.getElementById('hamburgerBtn').addEventListener('click', function() {
-      document.getElementById('navLinks').classList.toggle('open');
-    });
-
-    /* -------------------------------------------------------
-     * FILTER ORDERS BY STATUS
-     * ------------------------------------------------------- */
-    document.querySelectorAll('.filter-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        // Update active button style
-        document.querySelectorAll('.filter-btn').forEach(function(b) {
-          b.classList.remove('active-filter');
-        });
-        this.classList.add('active-filter');
-
-        // Filter rows
-        const filter = this.getAttribute('data-filter');
-        const rows = document.querySelectorAll('#staffOrderTable tr');
-        rows.forEach(function(row) {
-          if (filter === 'all' || row.getAttribute('data-status') === filter) {
-            row.style.display = '';
-          } else {
-            row.style.display = 'none';
-          }
-        });
-      });
-    });
-
-    /* -------------------------------------------------------
-     * UPDATE ORDER STATUS (demo — simulates staff updating)
-     * ------------------------------------------------------- */
-    const statusOrder = ['Pending', 'In Progress', 'Ready', 'Completed', 'Delivered'];
-    const badgeClasses = ['badge-pending', 'badge-inprogress', 'badge-ready', 'badge-completed', 'badge-delivered'];
-
-    document.querySelectorAll('.update-status').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        const row = this.closest('tr');  // Find the parent table row
-        const newStatus = this.getAttribute('data-new');
-
-        // Update the row's data-status attribute
-        row.setAttribute('data-status', newStatus);
-
-        // Find the status badge cell and update it
-        const badgeCell = row.querySelectorAll('td')[5];  // 6th column (0-indexed = 5)
-        const badge = badgeCell.querySelector('.badge');
-
-        const statusIndex = statusOrder.indexOf(newStatus);
-        badge.textContent = newStatus;
-        badge.className = 'badge ' + (badgeClasses[statusIndex] || 'badge-pending');
-
-        // Update the action button
-        const actionCell = row.querySelectorAll('td')[6];  // 7th column
-        const nextIndex = statusIndex + 1;
-
-        if (nextIndex < statusOrder.length) {
-          const nextStatus = statusOrder[nextIndex];
-          actionCell.innerHTML = '<button class="btn-link update-status" data-new="' + nextStatus + '">→ ' + nextStatus + '</button>';
-          // Re-attach event to the new button
-          actionCell.querySelector('.update-status').addEventListener('click', arguments.callee);
-        } else {
-          actionCell.innerHTML = '<span style="color:#2e7d32;">✓ Done</span>';
-        }
-
-        // Also apply the current filter
-        const activeFilter = document.querySelector('.filter-btn.active-filter');
-        if (activeFilter && activeFilter.getAttribute('data-filter') !== 'all') {
-          if (newStatus !== activeFilter.getAttribute('data-filter')) {
-            row.style.display = 'none';
-          }
-        }
-      });
-    });
-  </script>
+   <script src="js/nav_bar.js"></script>
+  <script src="js/staff-dashboard.js"></script>
 
 </body>
 </html>

@@ -76,12 +76,12 @@ A web-based restaurant order management system — **ClickEat** — that handles
 | `menu.html`               | Menu                 | Browse all food items by category, add to cart, QR code modal for walk-in |
 | `register.html`           | Register             | New customer sign-up form                                             |
 | `login.html`              | Login                | Existing customer sign-in form                                        |
-| `dashboard.html`          | Member Dashboard     | Logged-in member area — profile, recent orders, quick actions (View, Edit profile, track) |
+| `history.html`          | Member Dashboard     | Logged-in member area — profile, recent orders, quick actions (View, Edit profile, track) |
 | `order.html`              | Order / Cart         | Review cart, set order type (walk-in/online), delivery details, payment method |
 | `order-confirmation.html` | Order Confirmation   | Success page shown after order is placed                              |
 | `tracking.html`           | Order Tracking       | Enter order number → see step-by-step status progress bar            |
 | `cart.html`               | Cart                 | Review cart items, adjust quantities, see subtotal/tax/delivery fee, apply promo |
-| `staff-dashboard.html`    | Staff Dashboard      | Staff-only view to manage and update all walk-in and online orders    |
+| `staff-history.html`    | Staff Dashboard      | Staff-only view to manage and update all walk-in and online orders    |
 | `waiter.html`             | Waiter Interface     | Waiter scans QR or enters table number to place order on behalf of customer |
 
 ---
@@ -128,11 +128,11 @@ ClickEat   [Menu] [Order] [Track] [My Account] [Logout]
 ### login.html — Login
 - Fields: Email, Password
 - Checkbox: Remember Me
-- [LOGIN] → validate → `login-process.php` → `dashboard.html` (success) or show error
+- [LOGIN] → validate → `login-process.php` → `history.html` (success) or show error
 - [Forgot Password?] → `forgot.html`
 - [REGISTER] link → `register.html`
 
-### dashboard.html — Member Dashboard
+### history.html — Member Dashboard
 - Profile block: name, email, phone, member since, [Edit Profile]
 - Recent orders table: Order #, date, total, status badge, [Tracking] link
 - Quick action buttons: [ORDER NOW] → `menu.html` | [VIEW MENU] → `menu.html` | [TRACK ORDER] → `tracking.html`
@@ -156,7 +156,7 @@ ClickEat   [Menu] [Order] [Track] [My Account] [Logout]
 - Completed steps are highlighted; current step is active
 - Order details block: items, total
 - Status badge colors: Pending=Orange, In Progress=Yellow, Ready=Green, Completed=Blue, Delivered=Dark Green
-- [Back to Dashboard] → `dashboard.html`
+- [Back to Dashboard] → `history.html`
 
 ### cart.html — Cart
 - Cart table: item, qty ([-][+]), price, total, [Edit] [Remove] per row
@@ -181,7 +181,7 @@ ClickEat   [Menu] [Order] [Track] [My Account] [Logout]
 | View Cart           | Menu / Header     | Click                   | `cart.html`                          |
 | Continue to Checkout| Menu              | Check login state       | `order.html` or `login.html`         |
 | REGISTER            | Register          | Validate + submit       | `register-process.php` → `login.html`|
-| LOGIN               | Login             | Validate + submit       | `login-process.php` → `dashboard.html`|
+| LOGIN               | Login             | Validate + submit       | `login-process.php` → `history.html`|
 | [+] / [-]           | Order / Cart      | JS — update qty & total | Stay on page                         |
 | Remove              | Order / Cart      | JS — remove row         | Stay on page                         |
 | Place Order         | Order             | Validate + submit       | `order-process.php` → `order-confirmation.html` |
@@ -197,7 +197,7 @@ ClickEat   [Menu] [Order] [Track] [My Account] [Logout]
 1. `index.html` → clicks Register
 2. `register.html` → fills form → submits
 3. `login.html` → logs in
-4. `dashboard.html` → clicks Order Now
+4. `history.html` → clicks Order Now
 5. `menu.html` → adds items to cart
 6. `cart.html` → reviews, proceeds
 7. `order.html` → fills delivery details, uploads receipt
@@ -213,7 +213,7 @@ ClickEat   [Menu] [Order] [Track] [My Account] [Logout]
 
 ### Scenario 3: Returning Customer
 1. `index.html` → Login
-2. `dashboard.html` → views recent orders
+2. `history.html` → views recent orders
 3. Clicks Order Now → `menu.html` → adds items
 4. Quick checkout → `order-confirmation.html`
 

@@ -4,24 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ClickEat — Track Order</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 
-  <!-- ========== NAVIGATION BAR ========== -->
-  <nav class="navbar">
-    <div class="container">
-      <a href="index.html" class="brand">ClickEat</a>
-      <button class="hamburger" id="hamburgerBtn" aria-label="Menu">☰</button>
-      <ul class="nav-links" id="navLinks">
-        <li><a href="menu.html">Menu</a></li>
-        <li><a href="order.html">Order</a></li>
-        <li><a href="tracking.html" class="active">Track</a></li>
-        <li><a href="dashboard.html">Dashboard</a></li>
-        <li><a href="login.html">Login</a></li>
-      </ul>
-    </div>
-  </nav>
+  <!--navigation bar-->
+   <div id="navbar-placeholder"></div>
 
   <!-- ========== PAGE HEADER ========== -->
   <section class="page-header">
@@ -86,12 +75,12 @@
 
       <!-- Demo info -->
       <div style="text-align:center; margin-top:16px; font-size:14px; color:#666;">
-        <p>💡 <strong>Demo:</strong> Enter any order number and we'll show a sample status. Try it!</p>
+        <p><i class="fa-solid fa-lightbulb"></i> <strong>Demo:</strong> Enter any order number and we'll show a sample status. Try it!</p>
       </div>
 
       <!-- Back button -->
       <div class="flex-center mt-md">
-        <a href="dashboard.html" class="btn-secondary">← Back to Dashboard</a>
+        <a href="history.html" class="btn-secondary">← Back to Dashboard</a>
       </div>
     </div>
   </section>
@@ -105,7 +94,7 @@
       </div>
       <div>
         <h4>Contact Us</h4>
-        <p>📍 Jalan Teknologi, Melaka<br>📞 012-345 6789<br>✉️ hello@flavourshaven.my</p>
+        <p><i class="fa-solid fa-location-dot"></i> Jalan Teknologi, Melaka<br><i class="fa-solid fa-phone"></i> 012-345 6789<br><i class="fa-solid fa-envelope"></i> hello@clickeat.my</p>
       </div>
       <div>
         <h4>Operating Hours</h4>
@@ -114,80 +103,8 @@
     </div>
   </footer>
 
-  <!-- ========== JAVASCRIPT ========== -->
-  <script>
-    // Hamburger menu
-    document.getElementById('hamburgerBtn').addEventListener('click', function() {
-      document.getElementById('navLinks').classList.toggle('open');
-    });
-
-    /* -------------------------------------------------------
-     * ORDER TRACKING LOGIC
-     *   For demo purposes, any order number works.
-     *   Status and progress are simulated.
-     * ------------------------------------------------------- */
-
-    document.getElementById('trackBtn').addEventListener('click', function() {
-      const orderNumber = document.getElementById('orderNumberInput').value.trim();
-      const errorEl = document.getElementById('trackError');
-      const resultEl = document.getElementById('trackingResult');
-
-      // Validate input
-      if (orderNumber === '') {
-        errorEl.textContent = 'Please enter an order number.';
-        resultEl.classList.remove('visible');
-        return;
-      }
-
-      errorEl.textContent = '';
-      resultEl.classList.add('visible');
-
-      // Display order number
-      document.getElementById('trackOrderNum').textContent = orderNumber;
-
-      // For demo: simulate a random status
-      // In a real app, this would fetch from the database
-      const statuses = ['Pending', 'In Progress', 'Ready', 'Completed', 'Delivered'];
-      const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
-
-      // Update status badge
-      const badge = document.getElementById('trackStatusBadge');
-      badge.textContent = randomStatus;
-
-      // Map status to badge CSS class
-      const badgeMap = {
-        'Pending': 'badge-pending',
-        'In Progress': 'badge-inprogress',
-        'Ready': 'badge-ready',
-        'Completed': 'badge-completed',
-        'Delivered': 'badge-delivered'
-      };
-      badge.className = 'badge ' + (badgeMap[randomStatus] || 'badge-pending');
-
-      // Map status to step number
-      const stepMap = {
-        'Pending': 1,
-        'In Progress': 2,
-        'Ready': 3,
-        'Completed': 4,
-        'Delivered': 5
-      };
-      const currentStep = stepMap[randomStatus] || 1;
-
-      // Update progress steps
-      for (let i = 1; i <= 5; i++) {
-        const stepEl = document.getElementById('step' + i);
-        // Remove existing classes
-        stepEl.classList.remove('completed', 'active');
-
-        if (i < currentStep) {
-          stepEl.classList.add('completed');
-        } else if (i === currentStep) {
-          stepEl.classList.add('active');
-        }
-      }
-    });
-  </script>
+  <script src="js/nav_bar.js"></script>
+  <script src="js/tracking.js"></script>
 
 </body>
 </html>

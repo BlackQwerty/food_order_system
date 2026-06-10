@@ -39,7 +39,7 @@
 
 ## Surprising Connections (you probably didn't know these)
 - `Piji` --implements--> `Dashboard Page`  [INFERRED]
-  CONTEXT.md → dashboard.html
+  CONTEXT.md → history.html
 - `Piji` --implements--> `Home Page`  [INFERRED]
   CONTEXT.md → index.html
 - `Piji` --implements--> `Login Page`  [INFERRED]
@@ -47,7 +47,7 @@
 - `Piji` --implements--> `Register Page`  [INFERRED]
   CONTEXT.md → register.html
 - `Piji` --implements--> `Staff Dashboard Page`  [INFERRED]
-  CONTEXT.md → staff-dashboard.html
+  CONTEXT.md → staff-history.html
 
 ## Import Cycles
 - None detected.

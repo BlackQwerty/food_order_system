@@ -4,29 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ClickEat — Order Confirmed!</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 
-  <!-- ========== NAVIGATION BAR ========== -->
-  <nav class="navbar">
-    <div class="container">
-      <a href="index.html" class="brand">🍔 ClickEat</a>
-      <button class="hamburger" id="hamburgerBtn" aria-label="Menu">☰</button>
-      <ul class="nav-links" id="navLinks">
-        <li><a href="menu.html">Menu</a></li>
-        <li><a href="order.html">Order</a></li>
-        <li><a href="tracking.html">Track</a></li>
-        <li><a href="dashboard.html">Dashboard</a></li>
-        <li><a href="login.html">Login</a></li>
-      </ul>
-    </div>
-  </nav>
+  <!--navigation bar-->
+   <div id="navbar-placeholder"></div>
 
   <!-- ========== CONFIRMATION BOX ========== -->
   <main>
     <div class="confirmation-box card">
-      <div class="icon">✅</div>
+      <div class="icon"><i class="fa-solid fa-circle-check"></i></div>
       <h2>Order Placed Successfully!</h2>
       <p>Thank you for ordering from ClickEat. Your delicious food is being prepared.</p>
 
@@ -36,7 +25,7 @@
       <p style="margin-top:8px;">Total: <strong id="totalDisplay">RM 0.00</strong></p>
 
       <div class="btn-group flex-center mt-md">
-        <a href="tracking.html" class="btn-primary">📍 Track Your Order</a>
+        <a href="tracking.html" class="btn-primary"><i class="fa-solid fa-location-dot"></i> Track Your Order</a>
         <a href="menu.html" class="btn-secondary">Continue Shopping</a>
       </div>
     </div>
@@ -51,7 +40,7 @@
       </div>
       <div>
         <h4>Contact Us</h4>
-        <p>📍 Jalan Teknologi, Melaka<br>📞 012-345 6789<br>✉️ hello@flavourshaven.my</p>
+        <p><i class="fa-solid fa-location-dot"></i> Jalan Teknologi, Melaka<br><i class="fa-solid fa-phone"></i> 012-345 6789<br><i class="fa-solid fa-envelope"></i> hello@clickeat.my</p>
       </div>
       <div>
         <h4>Operating Hours</h4>
@@ -60,18 +49,8 @@
     </div>
   </footer>
 
-  <script>
-    // Hamburger menu
-    document.getElementById('hamburgerBtn').addEventListener('click', function() {
-      document.getElementById('navLinks').classList.toggle('open');
-    });
-
-    // Display order info from localStorage
-    const orderNumber = localStorage.getItem('lastOrderNumber') || 'FH-00000000';
-    const total = localStorage.getItem('lastOrderTotal') || 'RM 0.00';
-    document.getElementById('orderNumberDisplay').textContent = orderNumber;
-    document.getElementById('totalDisplay').textContent = total;
-  </script>
+  <script src="js/nav_bar.js"></script>
+  <script src="js/order-confirmation.js"></script>
 
 </body>
 </html>

@@ -4,28 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ClickEat — My Dashboard</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 
-  <!-- ========== NAVIGATION BAR (After login state) ========== -->
-  <nav class="navbar">
-    <div class="container">
-      <a href="index.html" class="brand">ClickEat</a>
-      <button class="hamburger" id="hamburgerBtn" aria-label="Menu">☰</button>
-      <ul class="nav-links" id="navLinks">
-        <li><a href="menu.html">Menu</a></li>
-        <li><a href="order.html">Order</a></li>
-        <li><a href="tracking.html">Track</a></li>
-        <li><a href="dashboard.html" class="active">My Account</a></li>
-        <li><a href="index.html" onclick="localStorage.removeItem('flavoursLoggedIn'); return true;">Logout</a></li>
-      </ul>
-    </div>
-  </nav>
+  <!--navigation bar-->
+   <div id="navbar-placeholder"></div>
 
   <!-- ========== PAGE HEADER ========== -->
   <section class="page-header">
-    <h1>My Dashboard</h1>
+    <h1>History</h1>
     <p>Welcome back! Manage your orders and profile here.</p>
   </section>
 
@@ -35,7 +24,7 @@
 
       <!-- Profile Block -->
       <div class="card profile-block">
-        <div class="profile-avatar">👤</div>
+        <div class="profile-avatar"><i class="fa-solid fa-user"></i></div>
         <div>
           <h3 id="profileName">Ahmad bin Ali</h3>
           <p id="profileEmail">ahmad@example.com</p>
@@ -47,9 +36,9 @@
 
       <!-- Quick Action Buttons -->
       <div class="quick-actions">
-        <a href="menu.html" class="btn-primary">🍽️ Order Now</a>
-        <a href="menu.html" class="btn-secondary">📋 View Menu</a>
-        <a href="tracking.html" class="btn-secondary">📍 Track Order</a>
+        <a href="menu.html" class="btn-primary"><i class="fa-solid fa-utensils"></i> Order Now</a>
+        <a href="menu.html" class="btn-secondary"><i class="fa-solid fa-clipboard-list"></i> View Menu</a>
+        <a href="tracking.html" class="btn-secondary"><i class="fa-solid fa-location-dot"></i> Track Order</a>
       </div>
 
       <!-- Recent Orders Table -->
@@ -74,7 +63,7 @@
               <td>Online</td>
               <td>RM 28.50</td>
               <td><span class="badge badge-completed">Completed</span></td>
-              <td><a href="tracking.html" class="btn-link">Track</a></td>
+              <td><a href="tracking.html" class="btn-link"><i class="fa-solid fa-location-dot"></i> Track</a></td>
             </tr>
             <!-- Demo order 2 -->
             <tr>
@@ -83,7 +72,7 @@
               <td>Walk-in</td>
               <td>RM 15.90</td>
               <td><span class="badge badge-delivered">Delivered</span></td>
-              <td><a href="tracking.html" class="btn-link">Track</a></td>
+              <td><a href="tracking.html" class="btn-link"><i class="fa-solid fa-location-dot"></i> Track</a></td>
             </tr>
             <!-- Demo order 3 -->
             <tr>
@@ -92,7 +81,7 @@
               <td>Online</td>
               <td>RM 42.00</td>
               <td><span class="badge badge-completed">Completed</span></td>
-              <td><a href="tracking.html" class="btn-link">Track</a></td>
+              <td><a href="tracking.html" class="btn-link"><i class="fa-solid fa-location-dot"></i> Track</a></td>
             </tr>
           </tbody>
         </table>
@@ -110,7 +99,7 @@
       </div>
       <div>
         <h4>Contact Us</h4>
-        <p>📍 Jalan Teknologi, Melaka<br>📞 012-345 6789<br>✉️ hello@flavourshaven.my</p>
+        <p><i class="fa-solid fa-location-dot"></i> Jalan Teknologi, Melaka<br><i class="fa-solid fa-phone"></i> 012-345 6789<br><i class="fa-solid fa-envelope"></i> hello@clickeat.my</p>
       </div>
       <div>
         <h4>Operating Hours</h4>
@@ -120,26 +109,8 @@
   </footer>
 
   <!-- ========== JAVASCRIPT ========== -->
-  <script>
-    // Hamburger menu
-    document.getElementById('hamburgerBtn').addEventListener('click', function() {
-      document.getElementById('navLinks').classList.toggle('open');
-    });
-
-    // Load user profile from localStorage (if registered)
-    const userData = localStorage.getItem('flavoursUser');
-    if (userData) {
-      const user = JSON.parse(userData);
-      document.getElementById('profileName').textContent = user.name || 'Guest User';
-      document.getElementById('profileEmail').textContent = user.email || 'Not set';
-      document.getElementById('profilePhone').textContent = user.phone || 'Not set';
-    }
-
-    // Set "member since" to today's date for demo
-    const now = new Date();
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    document.getElementById('profileSince').textContent = months[now.getMonth()] + ' ' + now.getFullYear();
-  </script>
+   <script src="js/nav_bar.js"></script>
+  <script src="js/dashboard.js"></script>
 
 </body>
 </html>

@@ -5,41 +5,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ClickEat — Home</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
 
-  <!-- ========== NAVIGATION BAR ==========
-       This SAME navbar appears on EVERY page.
-       "Before login" state: Menu | Order | Track | Dashboard | Login
-  -->
-  <nav class="navbar">
-    <div class="container">
-      <!-- Brand name — clicking it goes back to home -->
-      <a href="index.html" class="brand">ClickEat</a>
+   <!--navigation bar-->
+   <div id="navbar-placeholder"></div>
 
-      <!-- Hamburger button (only visible on mobile) -->
-      <button class="hamburger" id="hamburgerBtn" aria-label="Menu">☰</button>
-
-      <!-- Navigation links -->
-      <ul class="nav-links" id="navLinks">
-        <li><a href="menu.html">Menu</a></li>
-        <li><a href="order.html">Order</a></li>
-        <li><a href="tracking.html">Track</a></li>
-        <li><a href="dashboard.html">Dashboard</a></li>
-        <li><a href="login.html">Login</a></li>
-      </ul>
-    </div>
-  </nav>
-
-  <!-- ========== MAIN CONTENT ========== -->
+  <!-- MAIN CONTENT  -->
 
   <main>
 
     <!-- HERO SECTION — big banner at the top -->
     <section class="hero">
-      <h1>Delicious meals prepared with love</h1>
+      <h1>ClickEat</h1>
       <p>
         Welcome to ClickEat — where every dish tells a story.
         Order online for delivery or scan a QR code at your table to
@@ -59,7 +40,7 @@
 
           <!-- Feature 1: Walk-In -->
           <div class="card feature-card">
-            <div class="feature-icon">📱</div>
+            <div class="feature-icon"><i class="fa-solid fa-qrcode"></i></div>
             <h4>Walk-In Order (QR)</h4>
             <p>
               Scan the QR code on your table to view the menu and
@@ -69,7 +50,7 @@
 
           <!-- Feature 2: Online Delivery -->
           <div class="card feature-card">
-            <div class="feature-icon">🛵</div>
+            <div class="feature-icon"><i class="fa-solid fa-motorcycle"></i></div>
             <h4>Online Delivery</h4>
             <p>
               Browse our menu from home and get your favourite meals
@@ -79,7 +60,7 @@
 
           <!-- Feature 3: Track Order -->
           <div class="card feature-card">
-            <div class="feature-icon">📍</div>
+            <div class="feature-icon"><i class="fa-solid fa-location-dot"></i></div>
             <h4>Track Your Order</h4>
             <p>
               Know exactly when your food is being prepared, cooked,
@@ -122,11 +103,12 @@
           </div>
 
           <!-- Item 4 -->
+
           <div class="card menu-item">
-            <img src="images/Beverages/Teh-Tarik.png" alt="Teh Tarik" loading="lazy">
-            <h4>Teh Tarik</h4>
-            <p class="desc">Malaysia's famous pulled milk tea — hot or iced</p>
-            <p class="price">RM 3.50</p>
+            <img src="images/Beverages/Milo-Ais.png" alt="Milo Ais" loading="lazy">
+            <h4>Milo Ais</h4>
+            <p class="desc">Malaysia's famous milky milo iced</p>
+            <p class="price">RM 4.00</p>
           </div>
 
         </div>
@@ -156,9 +138,9 @@
       <div>
         <h4>Contact Us</h4>
         <p>
-          📍 Jalan Teknologi, 76100 Durian Tunggal, Melaka<br>
-          📞 012-345 6789<br>
-          ✉️ hello@flavourshaven.my
+          <i class="fa-solid fa-location-dot"></i> Jalan Teknologi, 76100 Durian Tunggal, Melaka<br>
+          <i class="fa-solid fa-phone"></i> 012-345 6789<br>
+          <i class="fa-solid fa-envelope"></i> hello@clickeat.my
         </p>
       </div>
 
@@ -174,12 +156,8 @@
   </footer>
 
   <!-- JavaScript for mobile hamburger menu -->
-  <script>
-    // Toggle the mobile navigation menu
-    document.getElementById('hamburgerBtn').addEventListener('click', function () {
-      document.getElementById('navLinks').classList.toggle('open');
-    });
-  </script>
+   <script src="js/nav_bar.js"></script>
+  <script src="js/index.js"></script>
 
 </body>
 

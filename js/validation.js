@@ -184,7 +184,7 @@ function initLoginForm() {
     if (state.isValid) {
       localStorage.setItem('clickeatLoggedIn', 'true');
       alert('✅ Login successful! Welcome back!');
-      window.location.href = 'dashboard.html';
+      window.location.href = 'history.html';
     }
   });
 }
