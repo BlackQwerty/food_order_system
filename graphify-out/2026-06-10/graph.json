@@ -12,9 +12,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "context_clickeat",
       "community": 4,
-      "norm_label": "clickeat",
-      "id": "context_clickeat"
+      "norm_label": "clickeat"
     },
     {
       "label": "Assignment 2",
@@ -25,9 +25,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "context_assignment2",
       "community": 3,
-      "norm_label": "assignment 2",
-      "id": "context_assignment2"
+      "norm_label": "assignment 2"
     },
     {
       "label": "Mini Project",
@@ -38,9 +38,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "context_miniproject",
       "community": 5,
-      "norm_label": "mini project",
-      "id": "context_miniproject"
+      "norm_label": "mini project"
     },
     {
       "label": "Piji",
@@ -51,9 +51,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "context_piji",
       "community": 0,
-      "norm_label": "piji",
-      "id": "context_piji"
+      "norm_label": "piji"
     },
     {
       "label": "Iki",
@@ -64,9 +64,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "context_iki",
       "community": 2,
-      "norm_label": "iki",
-      "id": "context_iki"
+      "norm_label": "iki"
     },
     {
       "label": "Makdi",
@@ -77,9 +77,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "context_makdi",
       "community": 1,
-      "norm_label": "makdi",
-      "id": "context_makdi"
+      "norm_label": "makdi"
     },
     {
       "label": "Shukri",
@@ -90,9 +90,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "context_shukri",
       "community": 7,
-      "norm_label": "shukri",
-      "id": "context_shukri"
+      "norm_label": "shukri"
     },
     {
       "label": "Apek",
@@ -103,9 +103,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "context_apek",
       "community": 1,
-      "norm_label": "apek",
-      "id": "context_apek"
+      "norm_label": "apek"
     },
     {
       "label": "Users Table",
@@ -116,9 +116,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "context_users",
       "community": 1,
-      "norm_label": "users table",
-      "id": "context_users"
+      "norm_label": "users table"
     },
     {
       "label": "Orders Table",
@@ -129,9 +129,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "context_orders",
       "community": 0,
-      "norm_label": "orders table",
-      "id": "context_orders"
+      "norm_label": "orders table"
     },
     {
       "label": "Order Items Table",
@@ -142,9 +142,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "context_order_items",
       "community": 6,
-      "norm_label": "order items table",
-      "id": "context_order_items"
+      "norm_label": "order items table"
     },
     {
       "label": "Color Palette",
@@ -155,9 +155,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "design_colors",
       "community": 8,
-      "norm_label": "color palette",
-      "id": "design_colors"
+      "norm_label": "color palette"
     },
     {
       "label": "Typography",
@@ -168,9 +168,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "design_typography",
       "community": 9,
-      "norm_label": "typography",
-      "id": "design_typography"
+      "norm_label": "typography"
     },
     {
       "label": "Primary Button Style",
@@ -181,9 +181,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "design_primarybutton",
       "community": 1,
-      "norm_label": "primary button style",
-      "id": "design_primarybutton"
+      "norm_label": "primary button style"
     },
     {
       "label": "Card Component",
@@ -194,9 +194,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "design_card",
       "community": 0,
-      "norm_label": "card component",
-      "id": "design_card"
+      "norm_label": "card component"
     },
     {
       "label": "styles.css",
@@ -207,9 +207,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "styles_css",
       "community": 2,
-      "norm_label": "styles.css",
-      "id": "styles_css"
+      "norm_label": "styles.css"
     },
     {
       "label": "Home Page",
@@ -220,9 +220,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "index_page",
       "community": 1,
-      "norm_label": "home page",
-      "id": "index_page"
+      "norm_label": "home page"
     },
     {
       "label": "Menu Page",
@@ -233,9 +233,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "menu_page",
       "community": 0,
-      "norm_label": "menu page",
-      "id": "menu_page"
+      "norm_label": "menu page"
     },
     {
       "label": "Login Page",
@@ -246,9 +246,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "login_page",
       "community": 1,
-      "norm_label": "login page",
-      "id": "login_page"
+      "norm_label": "login page"
     },
     {
       "label": "Register Page",
@@ -259,9 +259,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "register_page",
       "community": 1,
-      "norm_label": "register page",
-      "id": "register_page"
+      "norm_label": "register page"
     },
     {
       "label": "Dashboard Page",
@@ -272,9 +272,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "dashboard_page",
       "community": 1,
-      "norm_label": "dashboard page",
-      "id": "dashboard_page"
+      "norm_label": "dashboard page"
     },
     {
       "label": "Cart Page",
@@ -285,9 +285,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "cart_page",
       "community": 0,
-      "norm_label": "cart page",
-      "id": "cart_page"
+      "norm_label": "cart page"
     },
     {
       "label": "Order Checkout Page",
@@ -298,9 +298,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "order_page",
       "community": 0,
-      "norm_label": "order checkout page",
-      "id": "order_page"
+      "norm_label": "order checkout page"
     },
     {
       "label": "Order Confirmation Page",
@@ -311,9 +311,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "order_confirmation_page",
       "community": 0,
-      "norm_label": "order confirmation page",
-      "id": "order_confirmation_page"
+      "norm_label": "order confirmation page"
     },
     {
       "label": "Tracking Page",
@@ -324,9 +324,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "tracking_page",
       "community": 1,
-      "norm_label": "tracking page",
-      "id": "tracking_page"
+      "norm_label": "tracking page"
     },
     {
       "label": "Staff Dashboard Page",
@@ -337,9 +337,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "staff_dashboard_page",
       "community": 2,
-      "norm_label": "staff dashboard page",
-      "id": "staff_dashboard_page"
+      "norm_label": "staff dashboard page"
     },
     {
       "label": "Waiter Interface Page",
@@ -350,9 +350,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "waiter_page",
       "community": 0,
-      "norm_label": "waiter interface page",
-      "id": "waiter_page"
+      "norm_label": "waiter interface page"
     },
     {
       "label": "Navigation Bar",
@@ -363,9 +363,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "context_navbar",
       "community": 0,
-      "norm_label": "navigation bar",
-      "id": "context_navbar"
+      "norm_label": "navigation bar"
     }
   ],
   "links": [
@@ -1411,5 +1411,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "1eac9aafc5884f4899e76aef08b2c1fa5aaa4cf5"
+  "built_at_commit": "ace3729a543385366d242bf411cccbeb878b5e25"
 }
