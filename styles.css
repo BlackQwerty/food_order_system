@@ -206,7 +206,7 @@ a:hover {
   font-size: 17px;
   font-weight: 400;
   color: #cccccc;
-  text-decoration: underline;
+  /* text-decoration: underline; */
   padding: 0;
   background: none;
   border: none;
@@ -316,6 +316,12 @@ a:hover {
   border-radius: 8px;
   padding: 16px;
   box-shadow: none;
+}
+
+/* Menu item cards and profile card — warm light grey */
+.menu-item.card,
+.card.profile-block {
+  background-color: #e9ecef;
 }
 
 .card img {

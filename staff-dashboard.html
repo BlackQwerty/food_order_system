@@ -5,27 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ClickEat — Staff Dashboard</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 
   <!-- ========== NAVIGATION BAR ========== -->
   <nav class="navbar">
     <div class="container">
-      <a href="index.html" class="brand">🍔 ClickEat</a>
+      <a href="index.html" class="brand"><i class="fa-solid fa-utensils"></i> ClickEat</a>
       <button class="hamburger" id="hamburgerBtn" aria-label="Menu">☰</button>
       <ul class="nav-links" id="navLinks">
-        <li><a href="menu.html">Menu</a></li>
-        <li><a href="order.html">Order</a></li>
-        <li><a href="tracking.html">Track</a></li>
+        <li><a href="menu.html"><i class="fa-solid fa-utensils"></i> Menu</a></li>
+        <li><a href="order.html"><i class="fa-solid fa-receipt"></i> Order</a></li>
+        <li><a href="tracking.html"><i class="fa-solid fa-location-dot"></i> Track</a></li>
         <li><a href="staff-dashboard.html" class="active">Staff Panel</a></li>
-        <li><a href="login.html">Login</a></li>
+        <li><a href="login.html"><i class="fa-solid fa-right-to-bracket"></i> Login</a></li>
       </ul>
     </div>
   </nav>
 
   <!-- ========== PAGE HEADER ========== -->
   <section class="page-header">
-    <h1>🔧 Staff Dashboard</h1>
+    <h1><i class="fa-solid fa-screwdriver-wrench"></i> Staff Dashboard</h1>
     <p>Manage all walk-in and online orders</p>
   </section>
 
@@ -129,7 +130,7 @@
       </div>
       <div>
         <h4>Contact Us</h4>
-        <p>📍 Jalan Teknologi, Melaka<br>📞 012-345 6789<br>✉️ hello@flavourshaven.my</p>
+        <p><i class="fa-solid fa-location-dot"></i> Jalan Teknologi, Melaka<br><i class="fa-solid fa-phone"></i> 012-345 6789<br><i class="fa-solid fa-envelope"></i> hello@flavourshaven.my</p>
       </div>
       <div>
         <h4>Operating Hours</h4>
@@ -201,7 +202,7 @@
           // Re-attach event to the new button
           actionCell.querySelector('.update-status').addEventListener('click', arguments.callee);
         } else {
-          actionCell.innerHTML = '<span style="color:#2e7d32;">✓ Done</span>';
+          actionCell.innerHTML = '<span style="color:#2e7d32;">Done</span>';
         }
 
         // Also apply the current filter

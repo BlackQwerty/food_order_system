@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ClickEat — My Dashboard</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 
@@ -14,11 +15,11 @@
       <a href="index.html" class="brand">ClickEat</a>
       <button class="hamburger" id="hamburgerBtn" aria-label="Menu">☰</button>
       <ul class="nav-links" id="navLinks">
-        <li><a href="menu.html">Menu</a></li>
-        <li><a href="order.html">Order</a></li>
-        <li><a href="tracking.html">Track</a></li>
-        <li><a href="dashboard.html" class="active">My Account</a></li>
-        <li><a href="index.html" onclick="localStorage.removeItem('flavoursLoggedIn'); return true;">Logout</a></li>
+        <li><a href="menu.html"><i class="fa-solid fa-utensils"></i> Menu</a></li>
+        <li><a href="order.html"><i class="fa-solid fa-receipt"></i> Order</a></li>
+        <li><a href="tracking.html"><i class="fa-solid fa-location-dot"></i> Track</a></li>
+        <li><a href="dashboard.html" class="active"><i class="fa-solid fa-user"></i> My Account</a></li>
+        <li><a href="index.html" onclick="localStorage.removeItem('flavoursLoggedIn'); return true;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
       </ul>
     </div>
   </nav>
@@ -35,7 +36,7 @@
 
       <!-- Profile Block -->
       <div class="card profile-block">
-        <div class="profile-avatar">👤</div>
+        <div class="profile-avatar"><i class="fa-solid fa-user"></i></div>
         <div>
           <h3 id="profileName">Ahmad bin Ali</h3>
           <p id="profileEmail">ahmad@example.com</p>
@@ -47,9 +48,9 @@
 
       <!-- Quick Action Buttons -->
       <div class="quick-actions">
-        <a href="menu.html" class="btn-primary">🍽️ Order Now</a>
-        <a href="menu.html" class="btn-secondary">📋 View Menu</a>
-        <a href="tracking.html" class="btn-secondary">📍 Track Order</a>
+        <a href="menu.html" class="btn-primary"><i class="fa-solid fa-utensils"></i> Order Now</a>
+        <a href="menu.html" class="btn-secondary"><i class="fa-solid fa-clipboard-list"></i> View Menu</a>
+        <a href="tracking.html" class="btn-secondary"><i class="fa-solid fa-location-dot"></i> Track Order</a>
       </div>
 
       <!-- Recent Orders Table -->
@@ -74,7 +75,7 @@
               <td>Online</td>
               <td>RM 28.50</td>
               <td><span class="badge badge-completed">Completed</span></td>
-              <td><a href="tracking.html" class="btn-link">Track</a></td>
+              <td><a href="tracking.html" class="btn-link"><i class="fa-solid fa-location-dot"></i> Track</a></td>
             </tr>
             <!-- Demo order 2 -->
             <tr>
@@ -83,7 +84,7 @@
               <td>Walk-in</td>
               <td>RM 15.90</td>
               <td><span class="badge badge-delivered">Delivered</span></td>
-              <td><a href="tracking.html" class="btn-link">Track</a></td>
+              <td><a href="tracking.html" class="btn-link"><i class="fa-solid fa-location-dot"></i> Track</a></td>
             </tr>
             <!-- Demo order 3 -->
             <tr>
@@ -92,7 +93,7 @@
               <td>Online</td>
               <td>RM 42.00</td>
               <td><span class="badge badge-completed">Completed</span></td>
-              <td><a href="tracking.html" class="btn-link">Track</a></td>
+              <td><a href="tracking.html" class="btn-link"><i class="fa-solid fa-location-dot"></i> Track</a></td>
             </tr>
           </tbody>
         </table>
@@ -110,7 +111,7 @@
       </div>
       <div>
         <h4>Contact Us</h4>
-        <p>📍 Jalan Teknologi, Melaka<br>📞 012-345 6789<br>✉️ hello@flavourshaven.my</p>
+        <p><i class="fa-solid fa-location-dot"></i> Jalan Teknologi, Melaka<br><i class="fa-solid fa-phone"></i> 012-345 6789<br><i class="fa-solid fa-envelope"></i> hello@flavourshaven.my</p>
       </div>
       <div>
         <h4>Operating Hours</h4>

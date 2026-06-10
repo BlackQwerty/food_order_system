@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ClickEat — Menu</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
@@ -13,14 +14,14 @@
   <!-- ========== NAVIGATION BAR (same on every page) ========== -->
   <nav class="navbar">
     <div class="container">
-      <a href="index.html" class="brand">🍔 ClickEat</a>
+      <a href="index.html" class="brand"><i class="fa-solid fa-utensils"></i> ClickEat</a>
       <button class="hamburger" id="hamburgerBtn" aria-label="Menu">☰</button>
       <ul class="nav-links" id="navLinks">
-        <li><a href="menu.html" class="active">Menu</a></li>
-        <li><a href="order.html">Order</a></li>
-        <li><a href="tracking.html">Track</a></li>
-        <li><a href="dashboard.html">Dashboard</a></li>
-        <li><a href="login.html">Login</a></li>
+        <li><a href="menu.html" class="active"><i class="fa-solid fa-utensils"></i> Menu</a></li>
+        <li><a href="order.html"><i class="fa-solid fa-receipt"></i> Order</a></li>
+        <li><a href="tracking.html"><i class="fa-solid fa-location-dot"></i> Track</a></li>
+        <li><a href="dashboard.html"><i class="fa-solid fa-user"></i> Dashboard</a></li>
+        <li><a href="login.html"><i class="fa-solid fa-right-to-bracket"></i> Login</a></li>
       </ul>
     </div>
   </nav>
@@ -185,7 +186,7 @@
 
       <!-- Bottom action buttons -->
       <div class="flex-center mt-md" style="gap:16px;">
-        <a href="cart.html" class="btn-primary">🛒 View Cart <span class="cart-count" id="menuCartCount">0</span></a>
+        <a href="cart.html" class="btn-primary"><i class="fa-solid fa-cart-shopping"></i> View Cart <span class="cart-count" id="menuCartCount">0</span></a>
         <a href="order.html" id="checkoutBtn" class="btn-secondary">Continue to Checkout</a>
       </div>
 
@@ -195,7 +196,7 @@
   <!-- ========== TOAST NOTIFICATION ==========
        Shows "Added!" at the bottom-right when an item is added to cart
   -->
-  <div class="toast" id="toast">✅ Added to cart!</div>
+  <div class="toast" id="toast">Added to cart!</div>
 
   <!-- ========== QR CODE MODAL ==========
        For walk-in customers: shows QR code image + table number input
@@ -229,7 +230,7 @@
       </div>
       <div>
         <h4>Contact Us</h4>
-        <p>📍 Jalan Teknologi, Melaka<br>📞 012-345 6789<br>✉️ hello@flavourshaven.my</p>
+        <p><i class="fa-solid fa-location-dot"></i> Jalan Teknologi, Melaka<br><i class="fa-solid fa-phone"></i> 012-345 6789<br><i class="fa-solid fa-envelope"></i> hello@flavourshaven.my</p>
       </div>
       <div>
         <h4>Operating Hours</h4>
