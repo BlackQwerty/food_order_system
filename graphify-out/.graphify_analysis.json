@@ -1,0 +1,177 @@
+{
+  "communities": {
+    "0": [
+      "cart_page",
+      "context_navbar",
+      "context_orders",
+      "context_piji",
+      "design_card",
+      "menu_page",
+      "order_confirmation_page",
+      "order_page",
+      "waiter_page"
+    ],
+    "1": [
+      "context_apek",
+      "context_makdi",
+      "context_users",
+      "dashboard_page",
+      "design_primarybutton",
+      "index_page",
+      "login_page",
+      "register_page",
+      "tracking_page"
+    ],
+    "2": [
+      "context_iki",
+      "staff_dashboard_page",
+      "styles_css"
+    ],
+    "3": [
+      "context_assignment2"
+    ],
+    "4": [
+      "context_clickeat"
+    ],
+    "5": [
+      "context_miniproject"
+    ],
+    "6": [
+      "context_order_items"
+    ],
+    "7": [
+      "context_shukri"
+    ],
+    "8": [
+      "design_colors"
+    ],
+    "9": [
+      "design_typography"
+    ]
+  },
+  "cohesion": {
+    "0": 0.6666666666666666,
+    "1": 0.6944444444444444,
+    "2": 0.6666666666666666,
+    "3": 1.0,
+    "4": 1.0,
+    "5": 1.0,
+    "6": 1.0,
+    "7": 1.0,
+    "8": 1.0,
+    "9": 1.0
+  },
+  "gods": [
+    {
+      "id": "menu_page",
+      "label": "Menu Page",
+      "degree": 13
+    },
+    {
+      "id": "login_page",
+      "label": "Login Page",
+      "degree": 13
+    },
+    {
+      "id": "index_page",
+      "label": "Home Page",
+      "degree": 12
+    },
+    {
+      "id": "dashboard_page",
+      "label": "Dashboard Page",
+      "degree": 12
+    },
+    {
+      "id": "order_confirmation_page",
+      "label": "Order Confirmation Page",
+      "degree": 12
+    },
+    {
+      "id": "context_piji",
+      "label": "Piji",
+      "degree": 11
+    },
+    {
+      "id": "context_makdi",
+      "label": "Makdi",
+      "degree": 11
+    },
+    {
+      "id": "context_apek",
+      "label": "Apek",
+      "degree": 11
+    },
+    {
+      "id": "design_primarybutton",
+      "label": "Primary Button Style",
+      "degree": 11
+    },
+    {
+      "id": "design_card",
+      "label": "Card Component",
+      "degree": 11
+    }
+  ],
+  "surprises": [
+    {
+      "source": "Piji",
+      "target": "Dashboard Page",
+      "source_files": [
+        "CONTEXT.md",
+        "dashboard.html"
+      ],
+      "confidence": "INFERRED",
+      "relation": "implements",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "Piji",
+      "target": "Home Page",
+      "source_files": [
+        "CONTEXT.md",
+        "index.html"
+      ],
+      "confidence": "INFERRED",
+      "relation": "implements",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "Piji",
+      "target": "Login Page",
+      "source_files": [
+        "CONTEXT.md",
+        "login.html"
+      ],
+      "confidence": "INFERRED",
+      "relation": "implements",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "Piji",
+      "target": "Register Page",
+      "source_files": [
+        "CONTEXT.md",
+        "register.html"
+      ],
+      "confidence": "INFERRED",
+      "relation": "implements",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "Piji",
+      "target": "Staff Dashboard Page",
+      "source_files": [
+        "CONTEXT.md",
+        "staff-dashboard.html"
+      ],
+      "confidence": "INFERRED",
+      "relation": "implements",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; bridges separate communities"
+    }
+  ],
+  "tokens": {
+    "input": 29294,
+    "output": 16203
+  }
+}
