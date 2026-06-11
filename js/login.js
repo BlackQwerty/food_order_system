@@ -1,23 +1,67 @@
-    // Hamburger menu toggle
-    document.getElementById('hamburgerBtn').addEventListener('click', function() {
-      document.getElementById('navLinks').classList.toggle('open');
-    });
+// js/login.js
+// ============================================================
+// LOGIN FORM — Client-side validation + displays PHP errors
+// ============================================================
 
-    /* -------------------------------------------------------
-     * LOGIN FORM VALIDATION
-     * Simple validation: both email and password must not be empty.
-     * For demo purposes, if validation passes, user is redirected
-     * to history.html (simulating successful login).
-     * ------------------------------------------------------- */
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-      e.preventDefault();  // Stop form from submitting
+(function () {
+  function handleFlash() {
+    var session = window.__clickeatSession;
+    if (!session || !session.flash) return;
 
-      let isValid = true;
+    var flash = session.flash;
+    if (flash.type !== 'login' && flash.type !== 'register') return;
+
+    // Show server-side errors
+    if (flash.errors) {
+      // General error (wrong email/password)
+      if (flash.errors.general) {
+        alert(flash.errors.general);
+      }
+      // Field-specific errors
+      Object.keys(flash.errors).forEach(function (key) {
+        var el = document.getElementById(key + 'Error');
+        var input = document.getElementById(key);
+        if (el) el.textContent = flash.errors[key];
+        if (input) input.classList.add('error');
+      });
+    }
+
+    // Refill email
+    if (flash.old && flash.old.email) {
+      var emailEl = document.getElementById('email');
+      if (emailEl) emailEl.value = flash.old.email;
+    }
+
+    // Show success (e.g., "Registration successful! Please login.")
+    if (flash.success) {
+      alert(flash.success);
+    }
+  }
+
+  function checkFlash() {
+    if (window.__clickeatSession) {
+      handleFlash();
+    } else {
+      setTimeout(checkFlash, 150);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var form = document.getElementById('loginForm');
+    if (!form) return;
+
+    var alreadySubmitted = false;
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (alreadySubmitted) return;
+
+      var isValid = true;
 
       // --- Email ---
-      const email = document.getElementById('email').value.trim();
-      const emailError = document.getElementById('emailError');
-      const emailField = document.getElementById('email');
+      var email = document.getElementById('email').value.trim();
+      var emailError = document.getElementById('emailError');
+      var emailField = document.getElementById('email');
       if (email === '') {
         emailError.textContent = 'Please enter your email address.';
         emailField.classList.add('error');
@@ -28,9 +72,9 @@
       }
 
       // --- Password ---
-      const password = document.getElementById('password').value;
-      const passwordError = document.getElementById('passwordError');
-      const passwordField = document.getElementById('password');
+      var password = document.getElementById('password').value;
+      var passwordError = document.getElementById('passwordError');
+      var passwordField = document.getElementById('password');
       if (password === '') {
         passwordError.textContent = 'Please enter your password.';
         passwordField.classList.add('error');
@@ -40,11 +84,12 @@
         passwordField.classList.remove('error');
       }
 
-      // If valid, simulate login and redirect to dashboard
       if (isValid) {
-        // For demo: set a flag in localStorage to remember login state
-        localStorage.setItem('flavoursLoggedIn', 'true');
-        alert('Login successful! Welcome back!');
-        window.location.href = 'history.html';
+        alreadySubmitted = true;
+        form.submit();
       }
     });
+
+    checkFlash();
+  });
+})();

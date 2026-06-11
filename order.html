@@ -21,7 +21,10 @@
   <section class="section-sm">
     <div class="container">
 
-      <form id="checkoutForm" novalidate>
+      <form id="checkoutForm" action="/php_backend/order-process.php" method="POST" enctype="multipart/form-data" novalidate>
+
+        <!-- Hidden field: cart data serialized by JS before submit -->
+        <input type="hidden" name="cart_data" id="cartData">
 
         <!-- Order Summary Table -->
         <h3>Order Summary</h3>

@@ -22,7 +22,7 @@
   <section class="section-sm">
     <div class="form-container">
 
-      <form id="registerForm" novalidate>
+      <form id="registerForm" action="/php_backend/register-process.php" method="POST" novalidate>
 
         <!-- Full Name -->
         <div class="form-group">
@@ -75,7 +75,7 @@
 
         <!-- Terms & Conditions -->
         <div class="form-check mt-sm">
-          <input type="checkbox" id="agreeTerms">
+          <input type="checkbox" id="agreeTerms" name="agreeTerms">
           <label for="agreeTerms">I agree to the <a href="#">Terms &amp; Conditions</a></label>
         </div>
         <span class="error-msg" id="termsError"></span>

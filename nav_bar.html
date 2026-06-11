@@ -4,14 +4,20 @@
       <a href="index.html" class="brand" aria-label="Home">
         <i class="fa-solid fa-house"></i>
       </a>
-      <ul class="nav-links">
-        <!-- <li><a href="index.html" class="active">Home</a></li> -->
+
+      <ul class="nav-links" id="navLinks">
         <li><a href="menu.html">Menu</a></li>
         <li><a href="order.html">Order</a></li>
         <li><a href="tracking.html">Track</a></li>
-        <li><a href="history.html">History</a></li>
-        <li><a href="login.html">Account</a></li>
+        <li><a href="staff-dashboard.html">Dashboard</a></li>
+        <li id="navAccount"><a href="account.html">Account</a></li>
       </ul>
-      <!-- <a href="login.html" class="login-btn">Login</a> -->
+
+      <span id="navWelcome" class="nav-welcome" style="display:none;"></span>
+      <a href="/php_backend/logout.php" class="nav-auth-btn" id="navLogout" style="display:none;">Logout</a>
+
+      <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
     </div>
   </nav>

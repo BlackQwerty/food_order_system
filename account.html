@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClickEat — My Account</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+  <!--navigation bar-->
+  <div id="navbar-placeholder"></div>
+
+  <!-- ========== PAGE HEADER ========== -->
+  <section class="page-header">
+    <h1 id="accountTitle"><i class="fa-solid fa-user"></i> My Account</h1>
+    <p id="accountSubtitle">Manage your account, view your orders, and more.</p>
+  </section>
+
+  <!-- ========== LOGGED IN VIEW (hidden by default) ========== -->
+  <section class="section-sm" id="accountLoggedIn" style="display:none;">
+    <div class="container">
+
+      <!-- Profile Card -->
+      <div class="card profile-block">
+        <div class="profile-avatar"><i class="fa-solid fa-user"></i></div>
+        <div>
+          <h3 id="accName">User</h3>
+          <p id="accEmail">email@example.com</p>
+          <p id="accPhone">012-345 6789</p>
+          <p id="accRole" style="font-size:14px; color:#666;">Role: Customer</p>
+          <button class="btn-secondary mt-sm" onclick="alert('Profile editing coming soon.')">Edit Profile</button>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="quick-actions">
+        <a href="menu.html" class="btn-primary"><i class="fa-solid fa-utensils"></i> Order Now</a>
+        <a href="tracking.html" class="btn-secondary"><i class="fa-solid fa-location-dot"></i> Track Order</a>
+        <a href="history.html" class="btn-secondary"><i class="fa-solid fa-clock-rotate-left"></i> Order History</a>
+      </div>
+
+      <!-- Logout -->
+      <div class="flex-center mt-lg">
+        <a href="/php_backend/logout.php" class="btn-link" style="color:#d32f2f; font-size:17px;">
+          <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========== NOT LOGGED IN VIEW (shown by default) ========== -->
+  <section class="section-sm" id="accountLoggedOut">
+    <div class="container">
+      <div class="card pad-md" style="text-align:center; max-width:480px; margin:0 auto;">
+        <div style="font-size:48px; margin-bottom:16px;">🔒</div>
+        <h3>Sign in to Your Account</h3>
+        <p style="color:#666; margin-bottom:24px;">
+          Access your orders, track deliveries, and manage your profile.
+        </p>
+        <div class="btn-group flex-center">
+          <a href="login.html" class="btn-primary">Sign In</a>
+          <a href="register.html" class="btn-secondary">Create Account</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer>
+    <div class="container">
+      <div>
+        <h4>About ClickEat</h4>
+        <p>A modern restaurant serving authentic Malaysian cuisine.</p>
+      </div>
+      <div>
+        <h4>Contact Us</h4>
+        <p><i class="fa-solid fa-location-dot"></i> Jalan Teknologi, Melaka<br><i class="fa-solid fa-phone"></i> 012-345 6789<br><i class="fa-solid fa-envelope"></i> hello@clickeat.my</p>
+      </div>
+      <div>
+        <h4>Operating Hours</h4>
+        <p>Mon–Sat: 10AM–10PM<br>Sun: 12PM–9PM</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/nav_bar.js"></script>
+  <script src="js/account.js"></script>
+</body>
+</html>

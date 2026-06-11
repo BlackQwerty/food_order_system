@@ -22,7 +22,7 @@
   <section class="section-sm">
     <div class="form-container">
 
-      <form id="loginForm" novalidate>
+      <form id="loginForm" action="/php_backend/login-process.php" method="POST" novalidate>
 
         <!-- Email -->
         <div class="form-group">
@@ -41,7 +41,7 @@
         <!-- Remember Me + Forgot Password -->
         <div class="flex-between" style="margin-bottom:16px;">
           <div class="form-check">
-            <input type="checkbox" id="rememberMe">
+            <input type="checkbox" id="rememberMe" name="rememberMe">
             <label for="rememberMe">Remember Me</label>
           </div>
           <a href="#" class="btn-link" onclick="alert('Password reset link would be sent to your email.')">Forgot Password?</a>

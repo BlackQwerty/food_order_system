@@ -164,10 +164,9 @@ document.getElementById('checkoutForm').addEventListener('submit', function(e) {
   }
 
   if (isValid) {
-    const orderNumber = 'FH-' + Date.now().toString().slice(-8);
-    localStorage.setItem('lastOrderNumber', orderNumber);
-    localStorage.setItem('lastOrderTotal', document.getElementById('coTotal').textContent);
+    // Serialize cart data to hidden field for PHP backend
+    document.getElementById('cartData').value = JSON.stringify(cart);
     localStorage.removeItem('flavoursCart');
-    window.location.href = 'order-confirmation.html';
+    this.submit();  // Sends POST to order-process.php
   }
 });
