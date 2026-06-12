@@ -260,42 +260,6 @@ a:hover {
   text-decoration: none;
 }
 
-/* Nav auth buttons (Register, Login, Logout) */
-.nav-auth-btn {
-  font-family: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  color: #ffffff;
-  padding: 6px 16px;
-  border-radius: 25px;
-  text-decoration: none;
-  white-space: nowrap;
-  transition: background 0.2s;
-  flex-shrink: 0;
-}
-.nav-auth-btn:hover {
-  background: rgba(255, 255, 255, 0.12);
-  text-decoration: none;
-}
-.nav-auth-primary {
-  background: rgba(255, 255, 255, 0.20);
-  font-weight: 600;
-}
-.nav-auth-primary:hover {
-  background: rgba(255, 255, 255, 0.30);
-}
-
-/* Welcome text in navbar ("👋 Ahmad") */
-.nav-welcome {
-  font-family: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  color: #ffffff;
-  white-space: nowrap;
-  flex-shrink: 0;
-  padding: 0 8px;
-}
-
 /* Hide hamburger on desktop — not needed for bottom pill */
 .hamburger {
   display: none;

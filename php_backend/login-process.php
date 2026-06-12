@@ -6,8 +6,8 @@
  * 
  * THIS FILE HANDLES LOGIN FOR ALL THREE USER TYPES:
  *   - Customer  (customers table)  → redirects to history.html
- *   - Staff     (staff table)      → redirects to staff-dashboard.html
- *   - Admin     (admin table)      → redirects to staff-dashboard.html
+ *   - Staff     (staff table)      → redirects to dashboard.html
+ *   - Admin     (admin table)      → redirects to dashboard.html
  * 
  * FLOW:
  *   login.html (email + password entered)
@@ -175,7 +175,7 @@ switch ($user_source) {
             'staff_code'   => $user['staff_code'],
             'logged_in_at' => date('Y-m-d H:i:s'),
         ];
-        $redirect_url = '/staff-dashboard.html';
+        $redirect_url = '/dashboard.html';
         break;
 
     case 'admin':
@@ -188,7 +188,7 @@ switch ($user_source) {
             'username'     => $user['username'],
             'logged_in_at' => date('Y-m-d H:i:s'),
         ];
-        $redirect_url = '/staff-dashboard.html';     // Admins also manage orders
+        $redirect_url = '/dashboard.html';     // Admins also manage orders
         break;
 }
 
@@ -232,7 +232,7 @@ if ($rememberMe) {
 // 9. REDIRECT TO THE APPROPRIATE DASHBOARD
 // -----------------------------------------------------------------
 // Customer → history.html (their member dashboard)
-// Staff/Admin → staff-dashboard.html (order management)
+// Staff/Admin → dashboard.html (order management)
 // -----------------------------------------------------------------
 
 error_log("Login: {$user['email']} as {$user_source} — redirecting to {$redirect_url}");

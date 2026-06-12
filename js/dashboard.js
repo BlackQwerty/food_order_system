@@ -1,52 +1,29 @@
 // js/dashboard.js
-// ============================================================
-// MEMBER DASHBOARD — Loads user profile from PHP session
-// ============================================================
+// Loads user profile from PHP session.
 
 (function () {
-  /**
-   * Fetch user data from PHP session and populate the profile card.
-   */
-  function loadDashboardData() {
-    const session = window.__clickeatSession;
+  function load() {
+    fetch('/php_backend/api/get-session-user.php', { credentials: 'same-origin' })
+      .then(r => r.json())
+      .then(session => {
+        if (!session.logged_in || !session.user) {
+          window.location.href = '/login.html';
+          return;
+        }
+        const user = session.user;
+        document.getElementById('profileName').textContent  = user.name || 'Guest';
+        document.getElementById('profileEmail').textContent = user.email || '';
+        document.getElementById('profilePhone').textContent = user.phone || '';
+        document.getElementById('dashboardWelcomeName').textContent = user.name.split(' ')[0];
 
-    if (!session) {
-      // Session not ready yet — try again
-      setTimeout(loadDashboardData, 200);
-      return;
-    }
-
-    if (!session.logged_in || !session.user) {
-      // Not logged in — redirect to login
-      window.location.href = 'login.html';
-      return;
-    }
-
-    const user = session.user;
-
-    // Populate profile card
-    const elName  = document.getElementById('profileName');
-    const elEmail = document.getElementById('profileEmail');
-    const elPhone = document.getElementById('profilePhone');
-    const elSince = document.getElementById('profileSince');
-
-    if (elName)  elName.textContent  = user.name || 'Guest User';
-    if (elEmail) elEmail.textContent = user.email || 'Not set';
-    if (elPhone) elPhone.textContent = user.phone || 'Not set';
-
-    // Page header welcome
-    const headerName = document.getElementById('dashboardWelcomeName');
-    if (headerName) headerName.textContent = user.name.split(' ')[0];
-
-    // "Member since" — we'll show today's date as placeholder
-    // (The actual registration_date requires a DB query, which we can add later)
-    if (elSince) {
-      const now = new Date();
-      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-      elSince.textContent = months[now.getMonth()] + ' ' + now.getFullYear();
-    }
+        const now = new Date();
+        const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        document.getElementById('profileSince').textContent = months[now.getMonth()] + ' ' + now.getFullYear();
+      })
+      .catch(() => {
+        window.location.href = '/login.html';
+      });
   }
 
-  // Start loading when DOM is ready
-  document.addEventListener('DOMContentLoaded', loadDashboardData);
+  document.addEventListener('DOMContentLoaded', load);
 })();

@@ -93,7 +93,7 @@
         <!-- Table Number (only for walk-in) -->
         <div class="form-group mt-sm" id="tableNumberGroup" style="display:none;">
           <label for="tableNum">Table Number</label>
-          <input type="number" id="tableNum" placeholder="e.g. 5" min="1">
+          <input type="number" id="tableNum" name="tableNum" placeholder="e.g. 5" min="1">
           <span class="error-msg" id="tableNumError"></span>
         </div>
 
@@ -103,25 +103,25 @@
 
           <div class="form-group mt-sm">
             <label for="deliveryName">Full Name</label>
-            <input type="text" id="deliveryName" placeholder="Your full name" autocomplete="name">
+            <input type="text" id="deliveryName" name="deliveryName" placeholder="Your full name" autocomplete="name">
             <span class="error-msg" id="deliveryNameError"></span>
           </div>
 
           <div class="form-group">
             <label for="deliveryAddress">Delivery Address</label>
-            <textarea id="deliveryAddress" placeholder="Street, area, postcode, city/state"></textarea>
+            <textarea id="deliveryAddress" name="deliveryAddress" placeholder="Street, area, postcode, city/state"></textarea>
             <span class="error-msg" id="deliveryAddressError"></span>
           </div>
 
           <div class="form-group">
             <label for="deliveryPhone">Phone Number</label>
-            <input type="tel" id="deliveryPhone" placeholder="e.g. 0123456789" autocomplete="tel">
+            <input type="tel" id="deliveryPhone" name="deliveryPhone" placeholder="e.g. 0123456789" autocomplete="tel">
             <span class="error-msg" id="deliveryPhoneError"></span>
           </div>
 
           <div class="form-group">
             <label for="specialInstructions">Special Instructions (optional)</label>
-            <textarea id="specialInstructions" placeholder="e.g. No spicy, extra sauce, ring the bell"></textarea>
+            <textarea id="specialInstructions" name="specialInstructions" placeholder="e.g. No spicy, extra sauce, ring the bell"></textarea>
           </div>
         </div>
 
@@ -147,7 +147,7 @@
         <div class="payment-upload" id="receiptUpload">
           <div class="form-group">
             <label for="receiptFile">Upload Payment Receipt</label>
-            <input type="file" id="receiptFile" accept="image/*,.pdf">
+            <input type="file" id="receiptFile" name="receiptFile" accept="image/*,.pdf">
             <span class="error-msg" id="receiptError"></span>
           </div>
         </div>

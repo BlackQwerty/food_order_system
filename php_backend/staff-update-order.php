@@ -5,11 +5,11 @@
  * ============================================================
  * 
  * THIS IS THE AJAX ENDPOINT for updating order status.
- * Called from staff-dashboard.html when a staff member clicks
+ * Called from dashboard.html when a staff member clicks
  * the "→ In Progress" / "→ Ready" / "→ Completed" button.
  * 
  * FLOW:
- *   Staff clicks status button on staff-dashboard.html
+ *   Staff clicks status button on dashboard.html
  *     → JS sends fetch() POST to THIS FILE with order_id + new_status
  *     → PHP checks: Is the user logged in as staff/admin?
  *     → PHP validates: Is this a valid status transition?
