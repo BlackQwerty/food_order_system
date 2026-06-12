@@ -29,7 +29,7 @@
           <h3 id="accName">User</h3>
           <p id="accEmail">email@example.com</p>
           <p id="accPhone">012-345 6789</p>
-          <p id="accRole" style="font-size:14px; color:#666;">Role: Customer</p>
+          <p id="accRole" class="text-sm text-gray">Role: Customer</p>
           <button class="btn-secondary mt-sm" onclick="alert('Profile editing coming soon.')">Edit Profile</button>
         </div>
       </div>
@@ -43,7 +43,7 @@
 
       <!-- Logout -->
       <div class="flex-center mt-lg">
-        <a href="/php_backend/logout.php" class="btn-link" style="color:#d32f2f; font-size:17px;">
+        <a href="/php_backend/logout.php" class="btn-link" class="text-red">
           <i class="fa-solid fa-right-from-bracket"></i> Sign Out
         </a>
       </div>
@@ -54,10 +54,10 @@
   <!-- ========== NOT LOGGED IN VIEW (shown by default) ========== -->
   <section class="section-sm" id="accountLoggedOut">
     <div class="container">
-      <div class="card pad-md" style="text-align:center; max-width:480px; margin:0 auto;">
+      <div class="card pad-md" class="text-center card-centered">
         <!-- <div style="font-size:48px; margin-bottom:16px;"></div> -->
         <h3>Sign in to Your Account</h3>
-        <p style="color:#666; margin-bottom:24px;">
+        <p class="text-gray mb-md">
           Access your orders, track deliveries, and manage your profile.
         </p>
         <div class="btn-group flex-center">
