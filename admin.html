@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClickEat — Admin Panel</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+  <div id="navbar-placeholder"></div>
+
+  <!-- Page Header -->
+  <section class="page-header">
+    <h1><i class="fa-solid fa-shield-halved"></i> Admin Panel</h1>
+    <p id="adminWelcome">Manage your menu and orders</p>
+  </section>
+
+  <!-- Tab Bar -->
+  <div class="admin-tab-bar">
+    <div class="container">
+      <button class="admin-tab active-admin-tab" data-tab="menu">
+        <i class="fa-solid fa-utensils"></i> Menu Management
+      </button>
+      <button class="admin-tab" data-tab="orders">
+        <i class="fa-solid fa-receipt"></i> Order Management
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== MENU MANAGEMENT TAB ===== -->
+  <section class="section-sm" id="tab-menu">
+    <div class="container">
+
+      <div class="flex-between mb-md">
+        <h2>Menu Items</h2>
+        <button class="btn-primary" id="btnAddItem">
+          <i class="fa-solid fa-plus"></i> Add New Item
+        </button>
+      </div>
+
+      <!-- Category filter -->
+      <div class="filter-bar" id="catFilterBar">
+        <button class="filter-btn active-filter" data-cat="all">All</button>
+        <button class="filter-btn" data-cat="Main Course">Main Course</button>
+        <button class="filter-btn" data-cat="Beverage">Beverage</button>
+        <button class="filter-btn" data-cat="Dessert">Dessert</button>
+        <button class="filter-btn" data-cat="Appetizer">Appetizer</button>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Price (RM)</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="menuTable">
+            <tr>
+              <td colspan="6" class="text-center text-gray" style="padding:32px">
+                <i class="fa-solid fa-spinner fa-spin"></i> Loading menu items...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== ORDER MANAGEMENT TAB ===== -->
+  <section class="section-sm" id="tab-orders" style="display:none">
+    <div class="container">
+
+      <div class="flex-between mb-md">
+        <h2>All Orders</h2>
+        <button class="btn-secondary" id="btnRefreshOrders">
+          <i class="fa-solid fa-rotate"></i> Refresh
+        </button>
+      </div>
+
+      <div class="filter-bar">
+        <button class="filter-btn active-filter" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="Pending">Pending</button>
+        <button class="filter-btn" data-filter="In Progress">In Progress</button>
+        <button class="filter-btn" data-filter="Ready">Ready</button>
+        <button class="filter-btn" data-filter="Completed">Completed</button>
+        <button class="filter-btn" data-filter="Delivered">Delivered</button>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Order #</th>
+              <th>Customer</th>
+              <th>Type</th>
+              <th>Items</th>
+              <th>Total</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="ordersTable">
+            <tr>
+              <td colspan="7" class="text-center text-gray" style="padding:32px">
+                Click "Order Management" tab to load orders.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== ADD / EDIT MODAL ===== -->
+  <div class="modal-overlay" id="menuModal">
+    <div class="modal" style="max-width:560px;width:95%">
+      <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+      <h3 id="modalTitle">Add Menu Item</h3>
+
+      <form id="menuForm">
+        <input type="hidden" id="editItemId" name="item_id" value="">
+
+        <div class="form-group">
+          <label for="itemName">Item Name *</label>
+          <input type="text" id="itemName" name="item_name" placeholder="e.g. Nasi Lemak">
+          <span class="error-msg" id="errName"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="itemCategory">Category *</label>
+          <select id="itemCategory" name="category">
+            <option value="">Select category</option>
+            <option value="Main Course">Main Course</option>
+            <option value="Beverage">Beverage</option>
+            <option value="Dessert">Dessert</option>
+            <option value="Appetizer">Appetizer</option>
+          </select>
+          <span class="error-msg" id="errCategory"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="itemDesc">Description</label>
+          <textarea id="itemDesc" name="description" placeholder="Short description of the dish"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="itemPrice">Price (RM) *</label>
+          <input type="number" id="itemPrice" name="price" step="0.01" min="0" placeholder="e.g. 8.90">
+          <span class="error-msg" id="errPrice"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="itemImage">Item Image <span id="imageHint" class="text-sm text-gray">(JPG / PNG / WebP, max 2MB)</span></label>
+          <input type="file" id="itemImage" name="image" accept="image/jpeg,image/png,image/webp">
+          <div id="imagePreviewWrap" style="margin-top:8px;display:none">
+            <img id="previewImg" src="" alt="Preview" style="width:100px;height:100px;object-fit:cover;border-radius:8px;border:1px solid #e5e7eb">
+          </div>
+        </div>
+
+        <div class="form-check" id="availabilityRow" style="display:none">
+          <input type="checkbox" id="itemAvailability" name="availability" value="1">
+          <label for="itemAvailability">Available (visible on menu)</label>
+        </div>
+
+        <div class="btn-group mt-md">
+          <button type="submit" class="btn-primary" id="saveBtn">
+            <i class="fa-solid fa-floppy-disk"></i> Save Item
+          </button>
+          <button type="button" class="btn-secondary" id="cancelBtn">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== DELETE CONFIRM MODAL ===== -->
+  <div class="modal-overlay" id="deleteModal">
+    <div class="modal">
+      <h3><i class="fa-solid fa-triangle-exclamation" style="color:#e65100"></i> Remove Item?</h3>
+      <p class="mt-sm">This will hide the item from the customer menu. You can restore it by editing and marking it as available again.</p>
+      <input type="hidden" id="deleteItemId">
+      <div class="btn-group mt-md">
+        <button class="btn-primary" id="confirmDelete" style="background-color:#d32f2f;border-color:#d32f2f">
+          Yes, Remove
+        </button>
+        <button class="btn-secondary" id="cancelDelete">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div>
+        <h4>About ClickEat</h4>
+        <p>A modern restaurant serving authentic Malaysian cuisine.</p>
+      </div>
+      <div>
+        <h4>Contact Us</h4>
+        <p><i class="fa-solid fa-location-dot"></i> Jalan Teknologi, Melaka<br>
+           <i class="fa-solid fa-phone"></i> 012-345 6789<br>
+           <i class="fa-solid fa-envelope"></i> hello@clickeat.my</p>
+      </div>
+      <div>
+        <h4>Operating Hours</h4>
+        <p>Mon–Sat: 10AM–10PM<br>Sun: 12PM–9PM</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/nav_bar.js"></script>
+  <script src="js/admin.js"></script>
+
+</body>
+</html>

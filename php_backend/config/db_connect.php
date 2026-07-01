@@ -92,22 +92,20 @@
 // Everything else can be overridden by .env too if you add them.
 // -----------------------------------------------------------------
 
-$db_host    = getenv('DB_HOST')    ?: 'localhost';
+$db_host    = getenv('DB_HOST')    ?: '127.0.0.1';
 $db_port    = getenv('DB_PORT')    ?: '3306';
 $db_name    = getenv('DB_NAME')    ?: 'clickeat_db';
 $db_user    = getenv('DB_USER')    ?: 'root';
-$db_pass    = getenv('DB_PASS')    ?: '';   // ← From your .env file
-$db_socket  = getenv('DB_SOCKET')  ?: '/Applications/ServBay/tmp/mysql-8.4.sock';
+$db_pass    = getenv('DB_PASS')    ?: '';
 $db_charset = getenv('DB_CHARSET') ?: 'utf8mb4';
 
 // -----------------------------------------------------------------
 // 2. BUILD THE DSN (Data Source Name)
 // -----------------------------------------------------------------
-// DSN tells PDO WHERE to connect and HOW.
-// We use unix_socket for ServBay (faster than TCP for local connections).
+// Using TCP connection (works with XAMPP, ServBay, and any MySQL).
 // -----------------------------------------------------------------
 
-$dsn = "mysql:unix_socket={$db_socket};dbname={$db_name};charset={$db_charset}";
+$dsn = "mysql:host={$db_host};port={$db_port};dbname={$db_name};charset={$db_charset}";
 
 // -----------------------------------------------------------------
 // 3. CONNECTION OPTIONS

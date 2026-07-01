@@ -188,7 +188,7 @@ switch ($user_source) {
             'username'     => $user['username'],
             'logged_in_at' => date('Y-m-d H:i:s'),
         ];
-        $redirect_url = '/dashboard.html';     // Admins also manage orders
+        $redirect_url = '/admin.html';  // Admin panel with menu + order management
         break;
 }
 
