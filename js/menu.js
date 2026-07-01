@@ -214,5 +214,16 @@
     setupQrModal();
     loadMenu();
     updateCartCount();
+
+    // Show admin banner if logged in as admin
+    fetch('/php_backend/api/get-session-user.php', { credentials: 'same-origin' })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (data.logged_in && data.user && data.user.role === 'admin') {
+          var banner = document.getElementById('adminMenuBanner');
+          if (banner) banner.style.display = '';
+        }
+      })
+      .catch(function () {});
   });
 })();
