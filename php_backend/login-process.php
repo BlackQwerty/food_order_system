@@ -78,8 +78,8 @@ $user_source  = null;   // 'customers', 'staff', or 'admin'
 
 // ---- TRY CUSTOMERS TABLE ----
 $stmt = $pdo->prepare("
-    SELECT customer_id, name, email, password, phone, customer_type 
-    FROM customers 
+    SELECT customer_id, name, email, password, phone, address, customer_type, registration_date
+    FROM customers
     WHERE email = :email AND status = 'active'
     LIMIT 1
 ");
@@ -152,13 +152,15 @@ if ($user === null) {
 switch ($user_source) {
     case 'customers':
         $_SESSION['user'] = [
-            'user_id'       => (int) $user['customer_id'],
-            'name'          => $user['name'],
-            'email'         => $user['email'],
-            'phone'         => $user['phone'],
-            'role'          => 'customer',
-            'customer_type' => $user['customer_type'],  // 'walkin' or 'online'
-            'logged_in_at'  => date('Y-m-d H:i:s'),
+            'user_id'           => (int) $user['customer_id'],
+            'name'              => $user['name'],
+            'email'             => $user['email'],
+            'phone'             => $user['phone'],
+            'role'              => 'customer',
+            'customer_type'     => $user['customer_type'],  // 'walkin' or 'online'
+            'address'           => $user['address'] ?? '',
+            'registration_date' => $user['registration_date'] ?? null,
+            'logged_in_at'      => date('Y-m-d H:i:s'),
         ];
         $redirect_url = '/history.html';
         break;

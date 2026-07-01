@@ -21,6 +21,9 @@
   <section class="section-sm">
     <div class="container">
 
+      <!-- Server-side error banner (populated by JS via get-session-user.php flash) -->
+      <div id="checkoutFlash" class="alert" style="display:none;"></div>
+
       <form id="checkoutForm" action="/php_backend/order-process.php" method="POST" enctype="multipart/form-data" novalidate>
 
         <!-- Hidden field: cart data serialized by JS before submit -->

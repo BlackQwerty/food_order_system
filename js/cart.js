@@ -1,7 +1,10 @@
     // Hamburger menu toggle
-    document.getElementById('hamburgerBtn').addEventListener('click', function() {
-      document.getElementById('navLinks').classList.toggle('open');
-    });
+    var burger = document.getElementById('hamburgerBtn');
+    if (burger) {
+      burger.addEventListener('click', function() {
+        document.getElementById('navLinks').classList.toggle('open');
+      });
+    }
 
     /* -------------------------------------------------------
      * CART LOGIC
@@ -49,8 +52,12 @@
         subtotal += lineTotal;
 
         const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${item.name}</td>
+        // Safely inject item name using textContent to avoid XSS on user-supplied cart data.
+        const nameCell = document.createElement('td');
+        nameCell.textContent = item.name;
+
+        row.appendChild(nameCell);
+        row.insertAdjacentHTML('beforeend', `
           <td>RM ${item.price.toFixed(2)}</td>
           <td>
             <div class="qty-control">
@@ -63,7 +70,7 @@
           <td>
             <button class="btn-link remove-item" data-index="${index}">Remove</button>
           </td>
-        `;
+        `);
         tbody.appendChild(row);
       });
 

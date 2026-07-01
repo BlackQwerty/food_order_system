@@ -29,9 +29,28 @@
           <h3 id="profileName">Ahmad bin Ali</h3>
           <p id="profileEmail">ahmad@example.com</p>
           <p id="profilePhone">012-345 6789</p>
+          <p id="profileAddressDisplay" class="text-sm"><i class="fa-solid fa-location-dot"></i> <span id="profileAddress">No address saved</span></p>
           <p class="text-sm text-gray">Member since: <span id="profileSince">Jan 2025</span></p>
-          <button class="btn-secondary mt-sm" onclick="alert('Profile editing would be available in the full version.')">Edit Profile</button>
+          <button class="btn-secondary mt-sm" id="editProfileBtn">Edit Profile</button>
         </div>
+      </div>
+
+      <!-- Edit Profile Form (hidden by default) -->
+      <div class="card mt-sm" id="editProfileForm" style="display:none;">
+        <h4>Edit Profile</h4>
+        <div class="form-group mt-sm">
+          <label for="editPhone">Phone Number</label>
+          <input type="tel" id="editPhone" placeholder="e.g. 012-345 6789">
+        </div>
+        <div class="form-group">
+          <label for="editAddress">Delivery Address</label>
+          <textarea id="editAddress" placeholder="Street, area, postcode, city/state" rows="3"></textarea>
+        </div>
+        <div style="display:flex;gap:8px;" class="mt-sm">
+          <button class="btn-primary" id="saveProfileBtn">Save Changes</button>
+          <button class="btn-secondary" id="cancelEditBtn">Cancel</button>
+        </div>
+        <p id="profileSaveMsg" class="mt-sm" style="display:none;"></p>
       </div>
 
       <!-- Quick Action Buttons -->
@@ -50,42 +69,20 @@
               <th>Order #</th>
               <th>Date</th>
               <th>Type</th>
+              <th>Items</th>
               <th>Total</th>
               <th>Status</th>
               <th>Action</th>
             </tr>
           </thead>
-          <tbody>
-            <!-- Demo order 1 -->
-            <tr>
-              <td>FH-12345678</td>
-              <td>10 Jun 2025</td>
-              <td>Online</td>
-              <td>RM 28.50</td>
-              <td><span class="badge badge-completed">Completed</span></td>
-              <td><a href="tracking.html" class="btn-link"><i class="fa-solid fa-location-dot"></i> Track</a></td>
-            </tr>
-            <!-- Demo order 2 -->
-            <tr>
-              <td>FH-12345679</td>
-              <td>5 Jun 2025</td>
-              <td>Walk-in</td>
-              <td>RM 15.90</td>
-              <td><span class="badge badge-delivered">Delivered</span></td>
-              <td><a href="tracking.html" class="btn-link"><i class="fa-solid fa-location-dot"></i> Track</a></td>
-            </tr>
-            <!-- Demo order 3 -->
-            <tr>
-              <td>FH-12345680</td>
-              <td>1 Jun 2025</td>
-              <td>Online</td>
-              <td>RM 42.00</td>
-              <td><span class="badge badge-completed">Completed</span></td>
-              <td><a href="tracking.html" class="btn-link"><i class="fa-solid fa-location-dot"></i> Track</a></td>
-            </tr>
+          <tbody id="ordersTableBody">
+            <!-- Populated by JS from /php_backend/api/get-my-orders.php -->
           </tbody>
         </table>
       </div>
+      <p id="ordersEmpty" class="text-center text-gray mt-sm" style="display:none;">
+        You haven't placed any orders yet. <a href="menu.html">Order now →</a>
+      </p>
 
     </div>
   </section>

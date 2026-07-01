@@ -209,11 +209,37 @@ $staffId = null;
 if (is_logged_in()) {
     $role = current_user_role();
     $userId = current_user_id();
-    
+
     if ($role === 'customer') {
         $customerId = $userId;
     } elseif ($role === 'staff') {
-        $staffId = $userId;  // Staff member who placed the order (waiter)
+        $staffId = $userId;
+    } elseif ($role === 'admin' || $role === 'staff') {
+        // Admin/staff can also place orders — look up or create a customer record
+        $userEmail = $_SESSION['user']['email'] ?? '';
+        if ($userEmail) {
+            $stmtCust = $pdo->prepare("SELECT customer_id FROM customers WHERE email = :email LIMIT 1");
+            $stmtCust->execute([':email' => $userEmail]);
+            $custRow = $stmtCust->fetch();
+            if ($custRow) {
+                $customerId = (int) $custRow['customer_id'];
+            } else {
+                $stmtCreate = $pdo->prepare("
+                    INSERT INTO customers (name, email, phone, password, customer_type)
+                    VALUES (:name, :email, :phone, :password, 'online')
+                ");
+                $stmtCreate->execute([
+                    ':name'     => $_SESSION['user']['name'] ?? 'User',
+                    ':email'    => $userEmail,
+                    ':phone'    => $_SESSION['user']['phone'] ?? '',
+                    ':password' => password_hash(bin2hex(random_bytes(16)), PASSWORD_DEFAULT),
+                ]);
+                $customerId = (int) $pdo->lastInsertId();
+            }
+        }
+        if ($role === 'staff') {
+            $staffId = $userId;
+        }
     }
 }
 
@@ -275,21 +301,30 @@ try {
         VALUES (:order_id, :item_id, :quantity, :unit_price, :subtotal, :special_request)
     ");
     
+    // Prepared statement to look up menu item by name as fallback
+    $stmtFind = $pdo->prepare("SELECT item_id FROM menu_items WHERE item_name = :name LIMIT 1");
+
     foreach ($cartItems as $item) {
-        // Try to find matching menu item by name
+        // Prefer item_id passed from the frontend (set by menu.js).
+        // Fall back to name lookup for legacy carts or waiter-entered items.
         $itemId = null;
-        $stmtFind = $pdo->prepare("SELECT item_id FROM menu_items WHERE item_name = :name LIMIT 1");
-        $stmtFind->execute([':name' => $item['name']]);
-        $menuItem = $stmtFind->fetch();
-        
-        if ($menuItem) {
-            $itemId = $menuItem['item_id'];
+        if (!empty($item['item_id']) && (int) $item['item_id'] > 0) {
+            $itemId = (int) $item['item_id'];
+        } else {
+            $stmtFind->execute([':name' => $item['name']]);
+            $menuItem = $stmtFind->fetch();
+            if ($menuItem) {
+                $itemId = (int) $menuItem['item_id'];
+            }
         }
-        // item_id can be NULL if the item isn't in the menu_items table
-        // (for custom/special items added by waiter)
-        
+
+        // order_items.item_id is NOT NULL in the schema — skip items we can't match.
+        if ($itemId === null) {
+            continue;
+        }
+
         $lineSubtotal = round($item['price'] * $item['quantity'], 2);
-        
+
         $stmtItem->execute([
             ':order_id'        => $orderId,
             ':item_id'         => $itemId,

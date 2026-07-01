@@ -11,6 +11,8 @@
         if (session.last_order) {
           if (orderNumEl) orderNumEl.textContent = session.last_order.order_number;
           if (totalEl)    totalEl.textContent    = 'RM ' + parseFloat(session.last_order.total).toFixed(2);
+          const link = document.getElementById('trackOrderLink');
+          if (link) link.href = 'tracking.html?order=' + encodeURIComponent(session.last_order.order_number);
         } else {
           if (orderNumEl) orderNumEl.textContent = 'Order completed';
           if (totalEl)    totalEl.textContent    = 'RM 0.00';

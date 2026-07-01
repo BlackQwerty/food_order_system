@@ -70,12 +70,48 @@
             </div>
           </div>
 
+          <!-- Order details (items + total) -->
+          <div id="trackOrderDetails" class="mt-md" style="display:none;">
+            <hr>
+            <div class="flex-between mt-sm">
+              <span><strong>Order type:</strong> <span id="trackOrderType">-</span></span>
+              <span><strong>Placed:</strong> <span id="trackOrderDate">-</span></span>
+            </div>
+            <div class="mt-sm">
+              <strong>Items:</strong>
+              <ul id="trackItemsList" class="mt-sm" style="padding-left:20px;"></ul>
+            </div>
+            <div class="flex-between mt-sm total-row">
+              <span><strong>Total</strong></span>
+              <span><strong>RM <span id="trackTotal">0.00</span></strong></span>
+            </div>
+          </div>
+
         </div>
       </div>
 
-      <!-- Demo info -->
-      <div class="text-center mt-sm text-sm text-gray">
-        <p><i class="fa-solid fa-lightbulb"></i> <strong>Demo:</strong> Enter any order number and we'll show a sample status. Try it!</p>
+      <!-- ========== MY ORDERS LIST ========== -->
+      <div id="myOrdersSection" class="mt-lg" style="display:none;">
+        <h3>My Orders</h3>
+        <div class="table-wrapper mt-sm">
+          <table>
+            <thead>
+              <tr>
+                <th>Order #</th>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="myOrdersBody"></tbody>
+          </table>
+        </div>
+        <p id="myOrdersEmpty" class="text-center text-gray mt-sm" style="display:none;">
+          You haven't placed any orders yet. <a href="menu.html">Order now →</a>
+        </p>
       </div>
 
       <!-- Back button -->

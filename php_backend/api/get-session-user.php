@@ -91,7 +91,9 @@ if (is_logged_in()) {
     
     // Include role-specific fields
     if ($_SESSION['user']['role'] === 'customer') {
-        $response['user']['customer_type'] = $_SESSION['user']['customer_type'] ?? 'online';
+        $response['user']['customer_type']     = $_SESSION['user']['customer_type']     ?? 'online';
+        $response['user']['address']           = $_SESSION['user']['address']           ?? '';
+        $response['user']['registration_date'] = $_SESSION['user']['registration_date'] ?? null;
     }
     if ($_SESSION['user']['role'] === 'staff') {
         $response['user']['position']   = $_SESSION['user']['position'] ?? '';
