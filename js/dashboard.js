@@ -1,6 +1,7 @@
 /* -------------------------------------------------------
  * MEMBER DASHBOARD — dashboard.js
- * Loads the current customer's profile + their real orders.
+ * Loads profile, analytics stats, and recent orders.
+ * Adapts to admin vs customer role.
  * ------------------------------------------------------- */
 
 (function () {
@@ -13,24 +14,18 @@
     'Cancelled':   'badge-cancelled'
   };
 
-  var MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-
-  function formatMemberSince(iso) {
-    if (!iso) return '—';
-    var d = new Date(iso.replace(' ', 'T'));
-    if (isNaN(d)) return iso;
-    return MONTHS[d.getMonth()] + ' ' + d.getFullYear();
+  // ---- Stat card helper ----
+  function makeStatCard(icon, iconClass, value, label) {
+    var card = document.createElement('div');
+    card.className = 'stat-card';
+    card.innerHTML =
+      '<div class="stat-icon ' + iconClass + '"><i class="fa-solid ' + icon + '"></i></div>' +
+      '<div class="stat-value">' + value + '</div>' +
+      '<div class="stat-label">' + label + '</div>';
+    return card;
   }
 
-  function formatDate(iso) {
-    if (!iso) return '-';
-    var d = new Date(iso.replace(' ', 'T'));
-    if (isNaN(d)) return iso;
-    return d.getDate() + ' ' + MONTHS[d.getMonth()] + ' ' + d.getFullYear();
-  }
-
-  var currentUser = null;
-
+  // ---- Load profile ----
   function loadProfile() {
     return fetch('/php_backend/api/get-session-user.php', { credentials: 'same-origin' })
       .then(function (r) { return r.json(); })
@@ -41,161 +36,144 @@
         }
         var user = session.user;
         currentUser = user;
-        document.getElementById('profileName').textContent  = user.name;
-        document.getElementById('profileEmail').textContent = user.email;
-        document.getElementById('profilePhone').textContent = user.phone;
-        document.getElementById('dashboardWelcomeName').textContent = user.name.split(' ')[0];
-        document.getElementById('profileSince').textContent =
-          formatMemberSince(user.registration_date);
 
-        var addrEl = document.getElementById('profileAddress');
-        if (addrEl) {
-          addrEl.textContent = user.address || 'No address saved';
+        document.getElementById('dashboardWelcomeName').textContent = user.name.split(' ')[0];
+
+        // Show admin panel link
+        if (user.role === 'admin') {
+          var link = document.getElementById('adminPanelLink');
+          if (link) link.style.display = '';
         }
 
         return user;
       });
   }
 
-  function bindEditProfile() {
-    var editBtn   = document.getElementById('editProfileBtn');
-    var form      = document.getElementById('editProfileForm');
-    var cancelBtn = document.getElementById('cancelEditBtn');
-    var saveBtn   = document.getElementById('saveProfileBtn');
-    if (!editBtn || !form) return;
-
-    editBtn.addEventListener('click', function () {
-      form.style.display = '';
-      var phoneInput = document.getElementById('editPhone');
-      var addrInput  = document.getElementById('editAddress');
-      if (phoneInput && currentUser) phoneInput.value = currentUser.phone || '';
-      if (addrInput && currentUser)  addrInput.value  = currentUser.address || '';
-      document.getElementById('profileSaveMsg').style.display = 'none';
-    });
-
-    cancelBtn.addEventListener('click', function () {
-      form.style.display = 'none';
-    });
-
-    saveBtn.addEventListener('click', function () {
-      var phone   = document.getElementById('editPhone').value.trim();
-      var address = document.getElementById('editAddress').value.trim();
-      var msgEl   = document.getElementById('profileSaveMsg');
-
-      var body = {};
-      if (address !== (currentUser.address || '')) body.address = address;
-      if (phone !== (currentUser.phone || ''))     body.phone   = phone;
-
-      if (Object.keys(body).length === 0) {
-        msgEl.textContent = 'No changes to save.';
-        msgEl.style.color = '#666';
-        msgEl.style.display = '';
-        return;
-      }
-
-      fetch('/php_backend/api/update-profile.php', {
-        method: 'POST',
-        credentials: 'same-origin',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      })
+  // ---- Load dashboard stats ----
+  function loadStats() {
+    return fetch('/php_backend/api/get-dashboard-stats.php', { credentials: 'same-origin' })
       .then(function (r) { return r.json(); })
       .then(function (data) {
-        if (data.success) {
-          msgEl.textContent = 'Profile updated!';
-          msgEl.style.color = '#2e7d32';
-          msgEl.style.display = '';
-          if (body.phone)   { currentUser.phone = body.phone;   document.getElementById('profilePhone').textContent = body.phone; }
-          if (body.address !== undefined) { currentUser.address = body.address; document.getElementById('profileAddress').textContent = body.address || 'No address saved'; }
-          setTimeout(function () { form.style.display = 'none'; }, 1200);
+        if (!data.success || !data.stats) return;
+
+        var grid = document.getElementById('statGrid');
+        grid.innerHTML = '';
+
+        if (data.role === 'admin') {
+          renderAdminStats(data.stats, grid);
         } else {
-          msgEl.textContent = data.message || 'Update failed.';
-          msgEl.style.color = '#d32f2f';
-          msgEl.style.display = '';
+          renderCustomerStats(data.stats, grid);
         }
+
+        renderCharts(data.stats, data.role);
       })
-      .catch(function () {
-        msgEl.textContent = 'Network error. Please try again.';
-        msgEl.style.color = '#d32f2f';
-        msgEl.style.display = '';
-      });
-    });
+      .catch(function () {});
   }
 
-  function loadOrders() {
-    return fetch('/php_backend/api/get-my-orders.php', { credentials: 'same-origin' })
-      .then(function (r) { return r.json(); })
-      .then(function (data) {
-        var tbody = document.getElementById('ordersTableBody');
-        var empty = document.getElementById('ordersEmpty');
-        if (!tbody) return;
-        tbody.innerHTML = '';
+  function renderAdminStats(s, grid) {
+    grid.appendChild(makeStatCard('fa-dollar-sign', 'icon-green', 'RM ' + s.total_revenue, 'Total Revenue'));
+    grid.appendChild(makeStatCard('fa-receipt', 'icon-blue', s.total_orders, 'Total Orders'));
+    grid.appendChild(makeStatCard('fa-users', 'icon-purple', s.total_customers, 'Customers'));
+    grid.appendChild(makeStatCard('fa-bolt', 'icon-orange', 'RM ' + s.today_revenue, 'Today\'s Revenue'));
+  }
 
-        if (!data.success || !data.orders || data.orders.length === 0) {
-          if (empty) empty.style.display = '';
-          return;
-        }
-        if (empty) empty.style.display = 'none';
+  function renderCustomerStats(s, grid) {
+    grid.appendChild(makeStatCard('fa-wallet', 'icon-green', 'RM ' + s.total_spent, 'Total Spent'));
+    grid.appendChild(makeStatCard('fa-receipt', 'icon-blue', s.total_orders, 'Total Orders'));
+    grid.appendChild(makeStatCard('fa-clock', 'icon-orange', s.active_orders, 'Active Orders'));
+    grid.appendChild(makeStatCard('fa-chart-line', 'icon-purple', 'RM ' + s.avg_order_value, 'Avg. Order'));
+  }
 
-        data.orders.forEach(function (o) {
-          var tr = document.createElement('tr');
+  function renderCharts(stats, role) {
+    var section = document.getElementById('dashCharts');
+    section.style.display = '';
 
-          var orderCell = document.createElement('td');
-          orderCell.textContent = o.order_number;
+    // Top items title
+    var titleEl = document.getElementById('topItemsTitle');
+    titleEl.textContent = role === 'admin' ? 'Popular Items' : 'Your Favourites';
 
-          var dateCell = document.createElement('td');
-          dateCell.textContent = formatDate(o.order_date);
+    // Top items list
+    var list = document.getElementById('topItemsList');
+    var empty = document.getElementById('topItemsEmpty');
+    list.innerHTML = '';
 
-          var typeCell = document.createElement('td');
-          typeCell.textContent = o.order_type === 'walkin'
-            ? 'Walk-in (T' + (o.table_number || '?') + ')'
-            : 'Online';
-
-          var itemsCell = document.createElement('td');
-          itemsCell.textContent = o.items_summary || ('(' + o.item_count + ' items)');
-          itemsCell.style.maxWidth = '260px';
-          itemsCell.style.fontSize = '13px';
-          itemsCell.style.color = '#555';
-
-          var totalCell = document.createElement('td');
-          totalCell.textContent = 'RM ' + o.total_amount;
-
-          var statusCell = document.createElement('td');
-          var badge = document.createElement('span');
-          badge.className = 'badge ' + (BADGE_MAP[o.order_status] || 'badge-pending');
-          badge.textContent = o.order_status;
-          statusCell.appendChild(badge);
-
-          var actionCell = document.createElement('td');
-          var link = document.createElement('a');
-          link.className = 'btn-link';
-          link.href = 'tracking.html?order=' + encodeURIComponent(o.order_number);
-          link.innerHTML = '<i class="fa-solid fa-location-dot"></i> Track';
-          actionCell.appendChild(link);
-
-          tr.appendChild(orderCell);
-          tr.appendChild(dateCell);
-          tr.appendChild(typeCell);
-          tr.appendChild(itemsCell);
-          tr.appendChild(totalCell);
-          tr.appendChild(statusCell);
-          tr.appendChild(actionCell);
-          tbody.appendChild(tr);
-        });
-      })
-      .catch(function () {
-        var empty = document.getElementById('ordersEmpty');
-        if (empty) {
-          empty.textContent = 'Could not load orders. Please refresh.';
-          empty.style.display = '';
-        }
+    var items = stats.top_items || [];
+    if (items.length === 0) {
+      if (empty) empty.style.display = '';
+    } else {
+      if (empty) empty.style.display = 'none';
+      items.forEach(function (item, i) {
+        var li = document.createElement('li');
+        li.innerHTML =
+          '<span class="rank">' + (i + 1) + '</span>' +
+          '<span class="item-info">' + escapeHtml(item.item_name) + '</span>' +
+          '<span class="item-qty">' + item.total_qty + ' ordered' +
+          (item.total_sales ? ' &middot; RM ' + item.total_sales : '') + '</span>';
+        list.appendChild(li);
       });
+    }
+
+    // Type bar
+    var tc = stats.type_counts || {};
+    var walkin = tc.walkin || 0;
+    var online = tc.online || 0;
+    var typeTotal = walkin + online;
+
+    var bar = document.getElementById('typeBar');
+    var legend = document.getElementById('typeLegend');
+    bar.innerHTML = '';
+    legend.innerHTML = '';
+
+    if (typeTotal > 0) {
+      var wp = Math.round((walkin / typeTotal) * 100);
+      var op = 100 - wp;
+      if (walkin > 0) bar.innerHTML += '<div class="bar-walkin" style="width:' + wp + '%">' + wp + '%</div>';
+      if (online > 0) bar.innerHTML += '<div class="bar-online" style="width:' + op + '%">' + op + '%</div>';
+      legend.innerHTML = '<span class="leg-walkin">Walk-in (' + walkin + ')</span><span class="leg-online">Online (' + online + ')</span>';
+    } else {
+      bar.innerHTML = '<div style="width:100%;background:#eee;border-radius:14px;text-align:center;font-size:12px;color:#999;line-height:28px;">No data</div>';
+    }
+
+    // Status pills
+    var pills = document.getElementById('statusPills');
+    pills.innerHTML = '';
+    var sc = stats.status_counts || {};
+
+    // For customer stats, build from order counts
+    if (!sc || Object.keys(sc).length === 0) {
+      if (stats.active_orders !== undefined) {
+        sc = {};
+        if (stats.active_orders > 0) sc['Active'] = stats.active_orders;
+        if (stats.completed_orders > 0) sc['Completed'] = stats.completed_orders;
+      }
+    }
+
+    var statusOrder = ['Pending', 'In Progress', 'Ready', 'Completed', 'Delivered', 'Cancelled', 'Active'];
+    statusOrder.forEach(function (status) {
+      if (sc[status] && sc[status] > 0) {
+        var pill = document.createElement('span');
+        pill.className = 'status-pill badge ' + (BADGE_MAP[status] || 'badge-pending');
+        pill.textContent = status + ': ' + sc[status];
+        pills.appendChild(pill);
+      }
+    });
+
+    if (pills.children.length === 0) {
+      pills.innerHTML = '<span style="font-size:13px;color:#999;">No orders yet</span>';
+    }
+  }
+
+  function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
   }
 
   document.addEventListener('DOMContentLoaded', function () {
-    bindEditProfile();
     loadProfile().then(function (user) {
-      if (user) loadOrders();
+      if (user) {
+        loadStats();
+      }
     });
   });
 })();
