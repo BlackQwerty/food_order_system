@@ -167,6 +167,17 @@
   }
 
   /* ---------- QR Modal (walk-in) ---------- */
+  function generateQR(tableNum) {
+    const canvas = document.getElementById('qrCodeCanvas');
+    const label  = document.getElementById('qrTableLabel');
+    if (!canvas || typeof QRCode === 'undefined') return;
+    const url = window.location.origin + '/menu.html?table=' + tableNum;
+    QRCode.toCanvas(canvas, url, { width: 200, margin: 2 }, function (err) {
+      if (err) console.error('QR error:', err);
+    });
+    if (label) label.textContent = 'Table ' + tableNum + ' — scan to open menu';
+  }
+
   function setupQrModal() {
     const modal      = document.getElementById('qrModal');
     const closeBtn   = document.getElementById('closeQrModal');
@@ -177,6 +188,19 @@
     // If URL had ?table=N, show a friendly confirmation banner
     if (tableFromUrl) {
       showToast('Walk-in mode: Table ' + tableFromUrl);
+    }
+
+    // Pre-fill and generate QR if table is already known
+    if (tableFromUrl && tableInput) {
+      tableInput.value = tableFromUrl;
+      generateQR(tableFromUrl);
+    }
+
+    if (tableInput) {
+      tableInput.addEventListener('input', function () {
+        const t = parseInt(this.value, 10);
+        if (t > 0) generateQR(t);
+      });
     }
 
     if (closeBtn) {

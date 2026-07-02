@@ -39,6 +39,9 @@ document.addEventListener('DOMContentLoaded', () => {
     setupModal();
     setupDeleteModal();
     setupImagePreview();
+    setupStaffModal();
+    setupDeleteStaffModal();
+    setupTablesQR();
   }
 
   // ── TAB SWITCHING ───────────────────────────────────────────
@@ -51,8 +54,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const tab = btn.dataset.tab;
         document.getElementById('tab-menu').style.display   = tab === 'menu'   ? '' : 'none';
         document.getElementById('tab-orders').style.display = tab === 'orders' ? '' : 'none';
+        document.getElementById('tab-staff').style.display  = tab === 'staff'  ? '' : 'none';
+        document.getElementById('tab-tables').style.display = tab === 'tables' ? '' : 'none';
 
         if (tab === 'orders') loadOrders();
+        if (tab === 'staff')  loadStaff();
+        if (tab === 'tables') renderTableQRGrid();
       });
     });
   }
@@ -443,6 +450,223 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('imagePreviewWrap').style.display = 'block';
       };
       reader.readAsDataURL(file);
+    });
+  }
+
+  // ── TABLES & QR CODES ───────────────────────────────────────
+  function setupTablesQR() {
+    document.getElementById('btnGenerateQR').addEventListener('click', renderTableQRGrid);
+  }
+
+  function renderTableQRGrid() {
+    var count = parseInt(document.getElementById('tableCount').value, 10);
+    if (!count || count < 1) count = 10;
+    if (count > 100) count = 100;
+
+    var grid = document.getElementById('tableQRGrid');
+    grid.innerHTML = '';
+
+    var base = window.location.origin + '/menu.html?table=';
+
+    for (var t = 1; t <= count; t++) {
+      var url = base + t;
+
+      var card = document.createElement('div');
+      card.style.cssText = 'background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:20px;text-align:center;';
+
+      var title = document.createElement('div');
+      title.textContent = 'Table ' + t;
+      title.style.cssText = 'font-size:16px;font-weight:700;margin-bottom:12px;';
+
+      var canvas = document.createElement('canvas');
+      canvas.id = 'qr-table-' + t;
+      canvas.style.cssText = 'border-radius:8px;display:block;margin:0 auto 12px;';
+
+      var urlLabel = document.createElement('div');
+      urlLabel.textContent = 'menu.html?table=' + t;
+      urlLabel.style.cssText = 'font-size:11px;color:#999;margin-bottom:12px;word-break:break-all;';
+
+      var printBtn = document.createElement('button');
+      printBtn.className = 'btn-secondary';
+      printBtn.style.cssText = 'font-size:13px;padding:6px 16px;width:100%;';
+      printBtn.innerHTML = '<i class="fa-solid fa-print"></i> Print QR';
+      printBtn.setAttribute('data-table', t);
+      printBtn.setAttribute('data-url', url);
+
+      card.appendChild(title);
+      card.appendChild(canvas);
+      card.appendChild(urlLabel);
+      card.appendChild(printBtn);
+      grid.appendChild(card);
+
+      // Generate QR into canvas
+      QRCode.toCanvas(canvas, url, { width: 160, margin: 1 }, function (err) {
+        if (err) console.error('QR error:', err);
+      });
+
+      // Print handler
+      printBtn.addEventListener('click', function () {
+        var tableNum = this.getAttribute('data-table');
+        var qrUrl    = this.getAttribute('data-url');
+        var win = window.open('', '_blank', 'width=400,height=500');
+        var cvs = document.getElementById('qr-table-' + tableNum);
+        win.document.write(
+          '<!DOCTYPE html><html><head><title>Table ' + tableNum + ' QR</title>' +
+          '<style>body{font-family:Arial,sans-serif;text-align:center;padding:40px;}' +
+          'h2{margin-bottom:8px;}p{color:#666;font-size:13px;margin-bottom:20px;}</style></head>' +
+          '<body><h2>ClickEat — Table ' + tableNum + '</h2>' +
+          '<p>Scan to view menu &amp; order</p>' +
+          '<img src="' + cvs.toDataURL() + '" style="width:200px;height:200px;border-radius:8px;">' +
+          '<p style="margin-top:16px;font-size:11px;color:#aaa;">' + qrUrl + '</p>' +
+          '<script>window.onload=function(){window.print();window.close();}<\/script>' +
+          '</body></html>'
+        );
+        win.document.close();
+      });
+    }
+  }
+
+  // ── STAFF MANAGEMENT ────────────────────────────────────────
+  function loadStaff() {
+    const tbody = document.getElementById('staffTable');
+    tbody.innerHTML = '<tr><td colspan="8" class="text-center text-gray" style="padding:32px"><i class="fa-solid fa-spinner fa-spin"></i> Loading...</td></tr>';
+    fetch('/php_backend/api/get-staff.php')
+      .then(r => r.json())
+      .then(data => {
+        if (!data.success) { tbody.innerHTML = `<tr><td colspan="8" class="text-center" style="color:#d32f2f;padding:24px">${escHtml(data.message)}</td></tr>`; return; }
+        renderStaffTable(data.staff || []);
+      })
+      .catch(() => { tbody.innerHTML = '<tr><td colspan="8" class="text-center" style="color:#d32f2f;padding:24px">Failed to load staff.</td></tr>'; });
+  }
+
+  function renderStaffTable(staff) {
+    const tbody = document.getElementById('staffTable');
+    if (staff.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="8" class="text-center text-gray" style="padding:44px">No staff accounts yet. Click <strong>Add Staff</strong> to create one.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = staff.map(s => `
+      <tr>
+        <td><code>${escHtml(s.staff_code)}</code></td>
+        <td>${escHtml(s.full_name)}</td>
+        <td>${escHtml(s.email)}</td>
+        <td>${escHtml(s.phone || '—')}</td>
+        <td>${escHtml(s.position)}</td>
+        <td>${escHtml(s.shift)}</td>
+        <td>
+          <span class="badge ${s.status === 'Active' ? 'badge-completed' : 'badge-cancelled'}">${escHtml(s.status)}</span>
+        </td>
+        <td>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn-link staff-toggle" data-id="${s.staff_id}" data-status="${escHtml(s.status)}">
+              ${s.status === 'Active' ? 'Deactivate' : 'Activate'}
+            </button>
+            <button class="btn-link" style="color:#d32f2f" data-id="${s.staff_id}" data-name="${escHtml(s.full_name)}" onclick="(function(btn){
+              document.getElementById('deleteStaffId').value = btn.dataset.id;
+              document.getElementById('deleteStaffModal').classList.add('open');
+            })(this)">Delete</button>
+          </div>
+        </td>
+      </tr>`).join('');
+
+    tbody.querySelectorAll('.staff-toggle').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const fd = new FormData();
+        fd.append('action', 'toggle_status');
+        fd.append('staff_id', btn.dataset.id);
+        fetch('/php_backend/staff-manage.php', { method: 'POST', body: fd })
+          .then(r => r.json())
+          .then(data => {
+            if (data.success) { loadStaff(); showToast('Status updated to ' + data.new_status); }
+            else showToast(data.message, true);
+          });
+      });
+    });
+  }
+
+  function setupStaffModal() {
+    const modal     = document.getElementById('staffModal');
+    const form      = document.getElementById('staffForm');
+    const closeBtn  = document.getElementById('staffModalClose');
+    const cancelBtn = document.getElementById('staffCancelBtn');
+
+    document.getElementById('btnAddStaff').addEventListener('click', () => {
+      document.getElementById('staffModalTitle').textContent = 'Add Staff Account';
+      document.getElementById('editStaffId').value = '';
+      form.reset();
+      ['errStaffName','errStaffEmail','errStaffPassword','errStaffPosition'].forEach(id => {
+        document.getElementById(id).textContent = '';
+      });
+      document.getElementById('staffPasswordGroup').style.display = '';
+      modal.classList.add('open');
+    });
+
+    [closeBtn, cancelBtn].forEach(b => b.addEventListener('click', () => modal.classList.remove('open')));
+    modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const name     = document.getElementById('staffName').value.trim();
+      const email    = document.getElementById('staffEmail').value.trim();
+      const password = document.getElementById('staffPassword').value;
+      const position = document.getElementById('staffPosition').value;
+
+      let valid = true;
+      if (!name)     { document.getElementById('errStaffName').textContent = 'Required.'; valid = false; } else document.getElementById('errStaffName').textContent = '';
+      if (!email)    { document.getElementById('errStaffEmail').textContent = 'Required.'; valid = false; } else document.getElementById('errStaffEmail').textContent = '';
+      if (password.length < 6) { document.getElementById('errStaffPassword').textContent = 'Min. 6 characters.'; valid = false; } else document.getElementById('errStaffPassword').textContent = '';
+      if (!position) { document.getElementById('errStaffPosition').textContent = 'Required.'; valid = false; } else document.getElementById('errStaffPosition').textContent = '';
+      if (!valid) return;
+
+      const saveBtn = document.getElementById('staffSaveBtn');
+      saveBtn.disabled = true;
+      saveBtn.textContent = 'Saving...';
+
+      const fd = new FormData();
+      fd.append('action',    'create');
+      fd.append('full_name', name);
+      fd.append('email',     email);
+      fd.append('password',  password);
+      fd.append('phone',     document.getElementById('staffPhone').value.trim());
+      fd.append('position',  position);
+      fd.append('shift',     document.getElementById('staffShift').value);
+
+      fetch('/php_backend/staff-manage.php', { method: 'POST', body: fd })
+        .then(r => r.json())
+        .then(data => {
+          saveBtn.disabled = false;
+          saveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Save';
+          if (data.success) {
+            modal.classList.remove('open');
+            showToast(data.message);
+            loadStaff();
+          } else {
+            document.getElementById('errStaffEmail').textContent = data.message;
+          }
+        })
+        .catch(() => {
+          saveBtn.disabled = false;
+          saveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Save';
+          showToast('Network error.', true);
+        });
+    });
+  }
+
+  function setupDeleteStaffModal() {
+    const modal = document.getElementById('deleteStaffModal');
+    document.getElementById('cancelDeleteStaff').addEventListener('click', () => modal.classList.remove('open'));
+    document.getElementById('confirmDeleteStaff').addEventListener('click', () => {
+      const staffId = document.getElementById('deleteStaffId').value;
+      const fd = new FormData();
+      fd.append('action',   'delete');
+      fd.append('staff_id', staffId);
+      fetch('/php_backend/staff-manage.php', { method: 'POST', body: fd })
+        .then(r => r.json())
+        .then(data => {
+          modal.classList.remove('open');
+          if (data.success) { showToast('Staff account removed.'); loadStaff(); }
+          else showToast(data.message, true);
+        });
     });
   }
 

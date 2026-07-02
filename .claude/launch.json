@@ -2,10 +2,11 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "clickeat-php",
+      "name": "ClickEat PHP",
       "runtimeExecutable": "php",
-      "runtimeArgs": ["-S", "0.0.0.0:8080"],
-      "port": 8080
+      "runtimeArgs": ["-S", "0.0.0.0:8080", "-t", "."],
+      "port": 8080,
+      "autoPort": false
     }
   ]
 }

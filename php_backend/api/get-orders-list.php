@@ -99,24 +99,43 @@ $orders = $stmt->fetchAll();
 // 4. FORMAT DATA
 // -----------------------------------------------------------------
 
+// Position of the logged-in staff member
+$position = $_SESSION['user']['position'] ?? '';
+
+// Kitchen moves: Pending→In Progress, In Progress→Ready
+$kitchenSteps = ['In Progress', 'Ready'];
+// Waiter moves: Ready→Delivered, Delivered→Completed
+$waiterSteps  = ['Delivered', 'Completed'];
+
+// Unified transition map (same for walk-in and online)
+$allTransitions = [
+    'Pending'     => ['In Progress'],
+    'In Progress' => ['Ready'],
+    'Ready'       => ['Delivered'],
+    'Delivered'   => ['Completed'],
+    'Completed'   => [],
+    'Cancelled'   => [],
+];
+
 foreach ($orders as &$order) {
     $order['total_amount'] = number_format((float) $order['total_amount'], 2);
-    // Format table number for display
+
     if ($order['order_type'] === 'walkin' && $order['table_number']) {
         $order['table_display'] = "Table {$order['table_number']}";
     } else {
         $order['table_display'] = null;
     }
-    // Determine next allowed status transitions
-    $transitions = [
-        'Pending'     => ['In Progress'],
-        'In Progress' => ['Ready'],
-        'Ready'       => ($order['order_type'] === 'online') ? ['Delivered'] : ['Completed'],
-        'Completed'   => [],
-        'Delivered'   => [],
-        'Cancelled'   => [],
-    ];
-    $order['next_statuses'] = $transitions[$order['order_status']] ?? [];
+
+    $allNext = $allTransitions[$order['order_status']] ?? [];
+
+    if ($role === 'admin') {
+        $order['next_statuses'] = $allNext;
+    } elseif ($position === 'Kitchen') {
+        $order['next_statuses'] = array_values(array_filter($allNext, fn($s) => in_array($s, $kitchenSteps)));
+    } else {
+        // Waiter / Cashier / Manager
+        $order['next_statuses'] = array_values(array_filter($allNext, fn($s) => in_array($s, $waiterSteps)));
+    }
 }
 unset($order);
 

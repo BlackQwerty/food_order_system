@@ -39,12 +39,14 @@ if (!is_logged_in()) {
     ], 401);  // 401 Unauthorized
 }
 
-$role = current_user_role();
+$role     = current_user_role();
+$position = $_SESSION['user']['position'] ?? '';   // Waiter / Kitchen / Manager etc.
+
 if (!in_array($role, ['staff', 'admin'])) {
     json_response([
         'success' => false,
         'message' => 'Only staff members can update order status.'
-    ], 403);  // 403 Forbidden
+    ], 403);
 }
 
 // -----------------------------------------------------------------
@@ -114,17 +116,17 @@ $currentStatus = $order['order_status'];
 // This prevents staff from accidentally skipping steps.
 // -----------------------------------------------------------------
 
+// Unified status transitions (same for all order types)
 $validTransitions = [
     'Pending'     => ['In Progress', 'Cancelled'],
-    'In Progress' => ['Ready', 'Cancelled'],
-    'Ready'       => ['Completed', 'Delivered', 'Cancelled'],
-    'Completed'   => [],           // Final state — no further transitions
-    'Delivered'   => [],           // Final state
-    'Cancelled'   => [],           // Final state
+    'In Progress' => ['Ready',       'Cancelled'],
+    'Ready'       => ['Delivered',   'Cancelled'],
+    'Delivered'   => ['Completed',   'Cancelled'],
+    'Completed'   => [],
+    'Cancelled'   => [],
 ];
 
-// Check if the transition is allowed
-if (!isset($validTransitions[$currentStatus]) || 
+if (!isset($validTransitions[$currentStatus]) ||
     !in_array($newStatus, $validTransitions[$currentStatus])) {
     json_response([
         'success' => false,
@@ -132,20 +134,23 @@ if (!isset($validTransitions[$currentStatus]) ||
     ], 400);
 }
 
-// For online orders, Ready → Delivered (not Completed)
-if ($order['order_type'] === 'online' && $currentStatus === 'Ready' && $newStatus === 'Completed') {
-    // Suggest Delivered instead
-    json_response([
-        'success' => false,
-        'message' => "For online orders, use 'Delivered' instead of 'Completed'."
-    ], 400);
-}
+// Position-based permission gate (admin bypasses)
+if ($role === 'staff') {
+    $kitchenAllowed = ['In Progress', 'Ready'];   // Kitchen can push these
+    $waiterAllowed  = ['Delivered', 'Completed'];  // Waiter can push these
 
-if ($order['order_type'] === 'walkin' && $currentStatus === 'Ready' && $newStatus === 'Delivered') {
-    json_response([
-        'success' => false,
-        'message' => "For walk-in orders, use 'Completed' instead of 'Delivered'."
-    ], 400);
+    if ($position === 'Kitchen' && !in_array($newStatus, $kitchenAllowed) && $newStatus !== 'Cancelled') {
+        json_response([
+            'success' => false,
+            'message' => 'Kitchen staff can only move orders to In Progress or Ready.'
+        ], 403);
+    }
+    if ($position !== 'Kitchen' && !in_array($newStatus, $waiterAllowed) && $newStatus !== 'Cancelled') {
+        json_response([
+            'success' => false,
+            'message' => 'Waiter can only move orders to Delivered or Completed.'
+        ], 403);
+    }
 }
 
 // -----------------------------------------------------------------
@@ -158,13 +163,8 @@ try {
     $sql = "UPDATE orders SET order_status = :new_status";
     $params = [':new_status' => $newStatus, ':order_id' => $orderId];
     
-    if (in_array($newStatus, ['Completed', 'Delivered'])) {
-        $sql .= ", completed_time = NOW()";
-    }
-    
-    // Mark payment as Paid when delivered
-    if ($newStatus === 'Delivered') {
-        $sql .= ", payment_status = 'Paid'";
+    if ($newStatus === 'Completed') {
+        $sql .= ", completed_time = NOW(), payment_status = 'Paid'";
     }
     
     $sql .= " WHERE order_id = :order_id";

@@ -26,6 +26,12 @@
       <button class="admin-tab" data-tab="orders">
         <i class="fa-solid fa-receipt"></i> Order Management
       </button>
+      <button class="admin-tab" data-tab="staff">
+        <i class="fa-solid fa-users"></i> Staff Management
+      </button>
+      <button class="admin-tab" data-tab="tables">
+        <i class="fa-solid fa-qrcode"></i> Tables &amp; QR
+      </button>
     </div>
   </div>
 
@@ -119,6 +125,145 @@
 
     </div>
   </section>
+
+  <!-- ===== TABLES & QR TAB ===== -->
+  <section class="section-sm" id="tab-tables" style="display:none">
+    <div class="container">
+
+      <div class="flex-between mb-md">
+        <h2>Tables &amp; QR Codes</h2>
+      </div>
+      <p style="color:#666;margin-bottom:20px;">
+        Set the number of tables your restaurant has. Print the QR code for each table and place it on the table — customers scan it to open the menu directly.
+      </p>
+
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:28px;flex-wrap:wrap;">
+        <label style="font-weight:600;">Number of tables:</label>
+        <input type="number" id="tableCount" min="1" max="100" value="10"
+          style="width:80px;padding:8px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:15px;">
+        <button class="btn-primary" id="btnGenerateQR" style="font-size:14px;padding:8px 20px;">
+          <i class="fa-solid fa-rotate-right"></i> Generate
+        </button>
+      </div>
+
+      <div id="tableQRGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;"></div>
+
+    </div>
+  </section>
+
+  <!-- ===== STAFF MANAGEMENT TAB ===== -->
+  <section class="section-sm" id="tab-staff" style="display:none">
+    <div class="container">
+
+      <div class="flex-between mb-md">
+        <h2>Staff Accounts</h2>
+        <button class="btn-primary" id="btnAddStaff">
+          <i class="fa-solid fa-user-plus"></i> Add Staff
+        </button>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Position</th>
+              <th>Shift</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="staffTable">
+            <tr><td colspan="8" class="text-center text-gray" style="padding:32px">
+              <i class="fa-solid fa-spinner fa-spin"></i> Loading...
+            </td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== ADD STAFF MODAL ===== -->
+  <div class="modal-overlay" id="staffModal">
+    <div class="modal" style="max-width:520px;width:95%">
+      <button class="modal-close" id="staffModalClose">&times;</button>
+      <h3 id="staffModalTitle">Add Staff Account</h3>
+
+      <form id="staffForm">
+        <input type="hidden" id="editStaffId" value="">
+
+        <div class="form-group">
+          <label for="staffName">Full Name *</label>
+          <input type="text" id="staffName" placeholder="e.g. Ahmad Ali">
+          <span class="error-msg" id="errStaffName"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="staffEmail">Email *</label>
+          <input type="email" id="staffEmail" placeholder="e.g. staff@clickeat.my">
+          <span class="error-msg" id="errStaffEmail"></span>
+        </div>
+
+        <div class="form-group" id="staffPasswordGroup">
+          <label for="staffPassword">Password *</label>
+          <input type="password" id="staffPassword" placeholder="Min. 6 characters">
+          <span class="error-msg" id="errStaffPassword"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="staffPhone">Phone</label>
+          <input type="text" id="staffPhone" placeholder="e.g. 0121234567">
+        </div>
+
+        <div class="form-group">
+          <label for="staffPosition">Position *</label>
+          <select id="staffPosition">
+            <option value="">Select position</option>
+            <option value="Waiter">Waiter</option>
+            <option value="Kitchen">Kitchen</option>
+            <option value="Cashier">Cashier</option>
+            <option value="Manager">Manager</option>
+          </select>
+          <span class="error-msg" id="errStaffPosition"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="staffShift">Shift</label>
+          <select id="staffShift">
+            <option value="Morning">Morning</option>
+            <option value="Evening">Evening</option>
+            <option value="Night">Night</option>
+          </select>
+        </div>
+
+        <div class="btn-group mt-md">
+          <button type="submit" class="btn-primary" id="staffSaveBtn">
+            <i class="fa-solid fa-floppy-disk"></i> Save
+          </button>
+          <button type="button" class="btn-secondary" id="staffCancelBtn">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== DELETE STAFF CONFIRM ===== -->
+  <div class="modal-overlay" id="deleteStaffModal">
+    <div class="modal">
+      <h3><i class="fa-solid fa-triangle-exclamation" style="color:#e65100"></i> Remove Staff?</h3>
+      <p class="mt-sm">This will deactivate the staff account. They will no longer be able to log in.</p>
+      <input type="hidden" id="deleteStaffId">
+      <div class="btn-group mt-md">
+        <button class="btn-primary" id="confirmDeleteStaff" style="background-color:#d32f2f;border-color:#d32f2f">
+          Yes, Remove
+        </button>
+        <button class="btn-secondary" id="cancelDeleteStaff">Cancel</button>
+      </div>
+    </div>
+  </div>
 
   <!-- ===== ADD / EDIT MODAL ===== -->
   <div class="modal-overlay" id="menuModal">
@@ -220,6 +365,7 @@
   </footer>
 
   <script src="js/nav_bar.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
   <script src="js/admin.js"></script>
 
 </body>

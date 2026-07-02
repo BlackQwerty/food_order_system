@@ -337,7 +337,28 @@ try {
     
     // --- 11c. COMMIT — Save everything ---
     $pdo->commit();
-    
+
+    // --- 11d. SEND CONFIRMATION EMAIL (customers only) ---
+    $customerEmail = $_SESSION['user']['email'] ?? null;
+    $customerName  = $_SESSION['user']['name']  ?? 'Valued Customer';
+    if ($customerEmail && filter_var($customerEmail, FILTER_VALIDATE_EMAIL)) {
+        $typeLabel = $orderType === 'walkin'
+            ? 'Walk-In (Table ' . ((int) $tableNum) . ')'
+            : 'Online Delivery';
+        $subject = "ClickEat Order Confirmed — {$orderNumber}";
+        $body    = "Hi {$customerName},\r\n\r\n"
+                 . "Thank you for ordering with ClickEat!\r\n\r\n"
+                 . "Order Number : {$orderNumber}\r\n"
+                 . "Order Type   : {$typeLabel}\r\n"
+                 . "Total Amount : RM " . number_format($totalAmount, 2) . "\r\n"
+                 . "Status       : Pending\r\n\r\n"
+                 . "You can track your order at: http://localhost:8080/track.html\r\n\r\n"
+                 . "Thank you for choosing ClickEat!\r\n"
+                 . "— The ClickEat Team";
+        $headers = "From: no-reply@clickeat.my\r\nContent-Type: text/plain; charset=UTF-8";
+        @mail($customerEmail, $subject, $body, $headers);
+    }
+
 } catch (Exception $e) {
     // Something went wrong — roll back ALL changes
     $pdo->rollBack();

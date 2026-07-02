@@ -79,12 +79,8 @@
       <button class="modal-close" id="closeQrModal">✕</button>
       <h3>Walk-In Order — Scan QR</h3>
       <div style="text-align:center; margin:16px 0;">
-        <!-- Placeholder QR code image -->
-        <img src="https://via.placeholder.com/200x200?text=QR+Code" alt="QR Code"
-          style="border:1px solid #e5e7eb; border-radius:8px;">
-        <p style="font-size:14px; color:#666; margin-top:8px;">
-          Table 5 — Scan to open menu
-        </p>
+        <canvas id="qrCodeCanvas" style="border:1px solid #e5e7eb; border-radius:8px; display:block; margin:0 auto;"></canvas>
+        <p style="font-size:13px; color:#666; margin-top:8px;" id="qrTableLabel">Enter a table number below</p>
       </div>
       <div class="form-group">
         <label for="tableNumber">Or enter table number:</label>
@@ -114,6 +110,7 @@
 
   <!-- ========== JAVASCRIPT ========== -->
    <script src="js/nav_bar.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
   <script src="js/menu.js"></script>
 
 </body>

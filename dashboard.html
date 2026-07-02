@@ -3,36 +3,109 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ClickEat — Dashboard</title>
+  <title>ClickEat — Staff Dashboard</title>
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    .staff-actions { display:flex; gap:16px; flex-wrap:wrap; margin-bottom:24px; }
+    .staff-action-card {
+      flex:1; min-width:220px; border-radius:14px; padding:20px 24px;
+      display:flex; align-items:center; gap:16px; text-decoration:none;
+      transition:opacity .15s;
+    }
+    .staff-action-card:hover { opacity:.88; }
+    .staff-action-card.primary { background:#0071e3; color:#fff; }
+    .staff-action-card.secondary { background:#fff; border:1px solid #e5e7eb; color:#1d1d1f; }
+    .staff-action-card .ac-icon { font-size:30px; flex-shrink:0; }
+    .staff-action-card.secondary .ac-icon { color:#0071e3; }
+    .staff-action-card .ac-label { font-size:16px; font-weight:600; }
+    .staff-action-card .ac-desc  { font-size:13px; opacity:.75; margin-top:2px; }
+
+    .order-stats { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:20px; }
+    .order-stat  { background:#fff; border:1px solid #e5e7eb; border-radius:10px; padding:14px 20px; flex:1; min-width:120px; text-align:center; }
+    .order-stat .num { font-size:28px; font-weight:700; }
+    .order-stat .lbl { font-size:12px; color:#666; margin-top:2px; }
+    .num-pending  { color:#e65100; }
+    .num-progress { color:#1565c0; }
+    .num-ready    { color:#6a1b9a; }
+    .num-done     { color:#2e7d32; }
+    .refresh-bar  { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+    .last-updated { font-size:12px; color:#999; }
+    #loadingMsg   { text-align:center; padding:40px; color:#666; }
+    .action-btns  { display:flex; flex-direction:column; gap:4px; }
+    .action-btns button { white-space:nowrap; }
+    .order-note   { font-size:11px; color:#888; font-style:italic; }
+    @media(max-width:768px){
+      .staff-actions { flex-direction:column; }
+      .order-stats { flex-wrap:wrap; }
+      table { font-size:13px; }
+    }
+  </style>
 </head>
 <body>
 
-  <!--navigation bar-->
-   <div id="navbar-placeholder"></div>
+  <div id="navbar-placeholder"></div>
 
-  <!-- ========== PAGE HEADER ========== -->
   <section class="page-header">
     <h1><i class="fa-solid fa-screwdriver-wrench"></i> Staff Dashboard</h1>
-    <p>Manage all walk-in and online orders</p>
+    <p>Live order management — <strong id="staffNameDisplay">Loading...</strong></p>
+  </section>
+
+  <!-- Staff quick-action cards -->
+  <section class="section-sm" style="padding-bottom:0;">
+    <div class="container">
+      <div class="staff-actions">
+        <a href="waiter.html" class="staff-action-card primary" id="heroTakeOrder">
+          <i class="fa-solid fa-pen-to-square ac-icon"></i>
+          <div>
+            <div class="ac-label">Take Order</div>
+            <div class="ac-desc">Place an order for a customer at a table</div>
+          </div>
+        </a>
+        <a href="#ordersSection" class="staff-action-card secondary" id="heroManageOrders" style="text-decoration:none;">
+          <i class="fa-solid fa-list-check ac-icon"></i>
+          <div>
+            <div class="ac-label" id="heroManageLabel">Manage Orders</div>
+            <div class="ac-desc" id="heroManageDesc">Live orders are below — update status as food progresses</div>
+          </div>
+        </a>
+      </div>
+    </div>
   </section>
 
   <section class="section-sm">
     <div class="container">
 
-      <!-- Filter bar -->
-      <div class="filter-bar">
-        <button class="filter-btn active-filter" data-filter="all">All Orders</button>
-        <button class="filter-btn" data-filter="Pending">Pending</button>
-        <button class="filter-btn" data-filter="In Progress">In Progress</button>
-        <button class="filter-btn" data-filter="Ready">Ready</button>
-        <button class="filter-btn" data-filter="Completed">Completed</button>
-        <button class="filter-btn" data-filter="Delivered">Delivered</button>
+      <!-- Order count stats -->
+      <div class="order-stats" id="orderStats">
+        <div class="order-stat"><div class="num num-pending" id="cntPending">-</div><div class="lbl">Pending</div></div>
+        <div class="order-stat"><div class="num num-progress" id="cntProgress">-</div><div class="lbl">In Progress</div></div>
+        <div class="order-stat"><div class="num num-ready" id="cntReady">-</div><div class="lbl">Ready</div></div>
+        <div class="order-stat"><div class="num num-done" id="cntDone">-</div><div class="lbl">Completed/Delivered</div></div>
+      </div>
+
+      <!-- Filter bar + refresh -->
+      <div class="refresh-bar">
+        <div class="filter-bar" style="margin-bottom:0;">
+          <button class="filter-btn active-filter" data-filter="all">All Orders</button>
+          <button class="filter-btn" data-filter="Pending">Pending</button>
+          <button class="filter-btn" data-filter="In Progress">In Progress</button>
+          <button class="filter-btn" data-filter="Ready">Ready</button>
+          <button class="filter-btn" data-filter="Completed">Completed</button>
+          <button class="filter-btn" data-filter="Delivered">Delivered</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="last-updated" id="lastUpdated"></span>
+          <button class="btn-secondary" id="refreshBtn" style="padding:6px 14px;font-size:13px;">
+            <i class="fa-solid fa-rotate-right"></i> Refresh
+          </button>
+        </div>
       </div>
 
       <!-- Orders table -->
-      <div class="table-wrapper">
+      <div id="ordersSection"></div>
+      <div id="loadingMsg"><i class="fa-solid fa-spinner fa-spin"></i> Loading orders...</div>
+      <div class="table-wrapper" id="ordersTableWrap" style="display:none;">
         <table>
           <thead>
             <tr>
@@ -41,95 +114,28 @@
               <th>Type</th>
               <th>Items</th>
               <th>Total</th>
+              <th>Time</th>
               <th>Status</th>
               <th>Action</th>
             </tr>
           </thead>
-          <tbody id="staffOrderTable">
-            <!-- Demo data rows -->
-            <tr data-status="Pending">
-              <td>FH-11111111</td>
-              <td>Siti Nurhaliza</td>
-              <td>Walk-in (Table 3)</td>
-              <td>Nasi Lemak, Teh Tarik</td>
-              <td>RM 12.40</td>
-              <td><span class="badge badge-pending">Pending</span></td>
-              <td>
-                <button class="btn-link update-status" data-new="In Progress">→ In Progress</button>
-              </td>
-            </tr>
-            <tr data-status="In Progress">
-              <td>FH-22222222</td>
-              <td>Ali bin Abu</td>
-              <td>Online</td>
-              <td>Chicken Rice, Milo Ais, Cendol</td>
-              <td>RM 19.00</td>
-              <td><span class="badge badge-inprogress">In Progress</span></td>
-              <td>
-                <button class="btn-link update-status" data-new="Ready">→ Ready</button>
-              </td>
-            </tr>
-            <tr data-status="Ready">
-              <td>FH-33333333</td>
-              <td>Mei Ling</td>
-              <td>Online</td>
-              <td>Char Kuey Teow, Lemonade</td>
-              <td>RM 13.00</td>
-              <td><span class="badge badge-ready">Ready</span></td>
-              <td>
-                <button class="btn-link update-status" data-new="Completed">→ Completed</button>
-              </td>
-            </tr>
-            <tr data-status="Pending">
-              <td>FH-44444444</td>
-              <td>Raj Kumar</td>
-              <td>Walk-in (Table 7)</td>
-              <td>Roti Canai, Pisang Goreng, Sirap Bandung</td>
-              <td>RM 11.50</td>
-              <td><span class="badge badge-pending">Pending</span></td>
-              <td>
-                <button class="btn-link update-status" data-new="In Progress">→ In Progress</button>
-              </td>
-            </tr>
-            <tr data-status="Completed">
-              <td>FH-55555555</td>
-              <td>Fatimah</td>
-              <td>Online</td>
-              <td>Mee Goreng Mamak, Teh Tarik, Ais Kacang</td>
-              <td>RM 16.90</td>
-              <td><span class="badge badge-completed">Completed</span></td>
-              <td>
-                <button class="btn-link update-status" data-new="Delivered">→ Delivered</button>
-              </td>
-            </tr>
-          </tbody>
+          <tbody id="staffOrderTable"></tbody>
         </table>
       </div>
+      <p id="ordersEmptyMsg" class="text-center text-gray mt-sm" style="display:none;">No orders found for this filter.</p>
 
     </div>
   </section>
 
-  <!-- ========== FOOTER ========== -->
   <footer>
     <div class="container">
-      <div>
-        <h4>About ClickEat</h4>
-        <p>A modern restaurant serving authentic Malaysian cuisine.</p>
-      </div>
-      <div>
-        <h4>Contact Us</h4>
-        <p><i class="fa-solid fa-location-dot"></i> Jalan Teknologi, Melaka<br><i class="fa-solid fa-phone"></i> 012-345 6789<br><i class="fa-solid fa-envelope"></i> hello@clickeat.my</p>
-      </div>
-      <div>
-        <h4>Operating Hours</h4>
-        <p>Mon–Sat: 10AM–10PM<br>Sun: 12PM–9PM</p>
-      </div>
+      <div><h4>About ClickEat</h4><p>A modern restaurant serving authentic Malaysian cuisine.</p></div>
+      <div><h4>Contact Us</h4><p><i class="fa-solid fa-location-dot"></i> Jalan Teknologi, Melaka<br><i class="fa-solid fa-phone"></i> 012-345 6789</p></div>
+      <div><h4>Operating Hours</h4><p>Mon–Sat: 10AM–10PM<br>Sun: 12PM–9PM</p></div>
     </div>
   </footer>
 
-  <!-- ========== JAVASCRIPT ========== -->
-   <script src="js/nav_bar.js"></script>
-  <script src="js/dashboard.js"></script>
-
+  <script src="js/nav_bar.js"></script>
+  <script src="js/staff-dashboard.js"></script>
 </body>
 </html>
